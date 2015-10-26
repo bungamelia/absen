@@ -159,8 +159,8 @@
 							<tr>
 								<td><?php echo $no++."."; ?></td>
 								<td><?php echo $allabsen->nama_karyawan; ?></td>
-								<td><?php echo tgl_indo($data->waktu); ?></td>
-								<td><?php echo jam($data->waktu); ?></td>
+								<td><?php echo tgl_indo($allabsen->waktu); ?></td>
+								<td><?php echo jam($allabsen->waktu); ?></td>
 								<td><?php echo $allabsen->status; ?></td>
 							</tr>
 							<?php } }?>
