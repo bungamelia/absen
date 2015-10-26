@@ -19,8 +19,8 @@
 		$karyawan->hapus_karyawan($karyawan_id);
 		
 	}
-?>
-<body>
+?>	
+	<body>
 		<!-- start: Header -->
 		<div class="navbar">
 			<div class="navbar-inner">

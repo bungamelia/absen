@@ -113,7 +113,19 @@
 							<tr>
 								<td><?php echo $no++."."; ?></td>
 								<td><?php echo tgl_indo($data->waktu); ?></td>
-								<td><?php echo jam($data->waktu); ?></td>
+								<?php 
+									$jam_masuk = jam($data->waktu);
+									if ($data->status == "masuk" && $jam_masuk >= date('09:01:00') && $jam_masuk < date('09:15:00')){
+								?>
+								<td class="green"><?php echo jam($data->waktu); ?></td><?php } 
+									elseif($data->status == "masuk" && $jam_masuk >= date('09:15:00') && $jam_masuk < date('09:30:00')){
+								?>
+								<td class="yellow"><?php echo jam($data->waktu); ?></td><?php } 
+									elseif($data->status == "masuk" && $jam_masuk >= date('09:30:00')){
+								?>
+								<td class="red"><?php echo jam($data->waktu); ?></td><?php } 
+								else{ ?>
+								<td><?php echo jam($data->waktu); ?></td><?php } ?>
 								<td><?php echo $data->status; ?></td>
 							</tr><?php } ?>
 						  </tbody>

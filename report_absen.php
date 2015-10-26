@@ -17,40 +17,40 @@
 ?>
 
 <body>
-		<!-- start: Header -->
-	<div class="navbar">
-		<div class="navbar-inner">
-			<div class="container-fluid">
-				<a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</a>
-				<a class="brand" href="index.html"><span>Maxindo Content Solution</span></a>
-								
-				<!-- start: Header Menu -->
-				<div class="nav-no-collapse header-nav">
-					<ul class="nav pull-right">
-						<li class="dropdown">
-							<a class="btn dropdown-toggle" data-toggle="dropdown">
-								<i class="halflings-icon white user"></i><?php echo $_SESSION['username']; ?><span class="caret"></span>
-							</a>
-							<ul class="dropdown-menu">
-								<li class="dropdown-menu-title">
- 									<span>Account Settings</span>
-								</li>
-								<li><a href="detail_karyawan.php?id=<?php echo $karyawan_id; ?>"><i class="halflings-icon user"></i>Profile</a></li>
-								<li><a href="logout.php"><i class="halflings-icon off"></i> Logout</a></li>
-							</ul>
-						</li>
-						<!-- end: User Dropdown -->
-					</ul>
-				</div>
-				<!-- end: Header Menu -->
+	<!-- start: Header -->
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="container-fluid">
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+			<a class="brand" href="index.html"><span>Maxindo Content Solution</span></a>
+
+			<!-- start: Header Menu -->
+			<div class="nav-no-collapse header-nav">
+				<ul class="nav pull-right">
+					<li class="dropdown">
+						<a class="btn dropdown-toggle" data-toggle="dropdown">
+							<i class="halflings-icon white user"></i><?php echo $_SESSION['username']; ?><span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="dropdown-menu-title">
+								<span>Account Settings</span>
+							</li>
+							<li><a href="detail_karyawan.php?id=<?php echo $karyawan_id; ?>"><i class="halflings-icon user"></i>Profile</a></li>
+							<li><a href="logout.php"><i class="halflings-icon off"></i> Logout</a></li>
+						</ul>
+					</li>
+					<!-- end: User Dropdown -->
+				</ul>
 			</div>
+			<!-- end: Header Menu -->
 		</div>
 	</div>
-	<!-- start: Header -->
+</div>
+<!-- start: Header -->
 <div class="container-fluid-full">
 		<div class="row-fluid">
 			<!-- start: Main Menu -->
@@ -134,10 +134,20 @@
 							<tr>
 								<td><?php echo $no++."."; ?></td>
 								<td><?php echo $data->nama_karyawan; ?></td>
-								<td><?php 
-								$tgl = explode(" ",$data->waktu);
-								echo tgl_indo($tgl[0]); ?></td>
-								<td><?php echo $tgl[1]; ?></td>
+								<td><?php echo tgl_indo($data->waktu); ?></td>
+								<?php 
+									$jam_masuk = jam($data->waktu);
+									if ($data->status == "masuk" && $jam_masuk >= date('09:01:00') && $jam_masuk < date('09:15:00')){
+								?>
+								<td class="green"><?php echo jam($data->waktu); ?></td><?php } 
+									elseif($data->status == "masuk" && $jam_masuk >= date('09:15:00') && $jam_masuk < date('09:30:00')){
+								?>
+								<td class="yellow"><?php echo jam($data->waktu); ?></td><?php } 
+									elseif($data->status == "masuk" && $jam_masuk >= date('09:30:00')){
+								?>
+								<td class="red"><?php echo jam($data->waktu); ?></td><?php } 
+								else{ ?>
+								<td><?php echo jam($data->waktu); ?></td><?php } ?>
 								<td><?php echo $data->status; ?></td>
 							</tr>
 							<?php } }
@@ -149,10 +159,8 @@
 							<tr>
 								<td><?php echo $no++."."; ?></td>
 								<td><?php echo $allabsen->nama_karyawan; ?></td>
-								<td><?php 
-								$tgl = explode(" ",$allabsen->waktu);
-								echo tgl_indo($tgl[0]); ?></td>
-								<td><?php echo $tgl[1]; ?></td>
+								<td><?php echo tgl_indo($data->waktu); ?></td>
+								<td><?php echo jam($data->waktu); ?></td>
 								<td><?php echo $allabsen->status; ?></td>
 							</tr>
 							<?php } }?>
