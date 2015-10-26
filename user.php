@@ -22,11 +22,15 @@
 		makeDir($path);
 		file_put_contents("{$path}/{$_SESSION['id_karyawan']}-".date('d-m-Y').".jpeg", $data);
 		
+		$tgl_skrg = date('Y-m-d');
+		$row_shift = $shift->today_shiftline($_SESSION['id_karyawan'], $tgl_skrg);
+		
 		$id_karyawan = $_SESSION['id_karyawan'];
 		$waktu = $_POST['waktu'];
 		$status = 'masuk';
+		$id_shift = $row_shift->id_shift;
 		
-		$absen->add_absen($id_karyawan, $waktu, $status);
+		$absen->add_absen($id_karyawan, $id_shift, $waktu, $status);
 		
 		header ("location: user.php");
 	}

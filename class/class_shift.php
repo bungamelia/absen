@@ -76,6 +76,15 @@
 			return $data;
 		}
 		
+		public function cek_shiftline($karyawan_id){
+			$query = "SELECT * FROM shift_line WHERE id_karyawan=:karyawan_id";
+			$this->obj->query($query);
+			$this->obj->bind(':karyawan_id',$karyawan_id);
+			$this->obj->execute();
+			$data = $this->obj->single();
+			return $data;
+		}
+		
 		public function getAll_shiftline(){
 			$query = "SELECT * FROM shift_line";
 			$this->obj->query($query);

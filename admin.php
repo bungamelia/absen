@@ -5,6 +5,7 @@
 	$absen = new absen();
 	$karyawan = new karyawan();
 	$notice = new notice();
+	shift = new shift();
 	
 	if($user->loggedin() == "0"){ 
 		header ("location: index.php");
@@ -24,6 +25,8 @@
 		$data 		= base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $_POST['foto_absen']));
 		makeDir($path);
 		file_put_contents("{$path}/{$_SESSION['id_karyawan']}-".date('d-m-Y').".jpeg", $data);
+		
+		
 		
 		$id_karyawan = $_SESSION['id_karyawan'];
 		$waktu = $_POST['waktu'];
@@ -119,6 +122,7 @@
 			<?php 
 				$username = $_SESSION['username'];
 				$id_karyawan = $_SESSION['id_karyawan'];	
+				
 			?>
 			<div class="row-fluid sortable">
 				<div class="box span4">
@@ -230,37 +234,37 @@
 					<div class="box-content">
 						<div class="todo">
 							<div id="my_camera"></div>
-								<!-- First, include the Webcam.js JavaScript Library -->
-								<script type="text/javascript" src="bootstrap/js/webcam.js"></script>
+							<!-- First, include the Webcam.js JavaScript Library -->
+							<script type="text/javascript" src="bootstrap/js/webcam.js"></script>
+						
+							<!-- Configure a few settings and attach camera -->
+							<script language="JavaScript">
+								Webcam.set({
+									width: 320,
+									height: 240,
+									image_format: 'jpeg',
+									jpeg_quality: 90
+								});
+								Webcam.attach( '#my_camera' );
+							</script>
+						
+							<!-- A button for taking snaps -->
+							<form>
+								<button type="button" class="btn btn-primary" onClick="take_snapshot()">Take Snapshot</button>
+							</form>
 							
-								<!-- Configure a few settings and attach camera -->
-								<script language="JavaScript">
-									Webcam.set({
-										width: 320,
-										height: 240,
-										image_format: 'jpeg',
-										jpeg_quality: 90
-									});
-									Webcam.attach( '#my_camera' );
-								</script>
-							
-								<!-- A button for taking snaps -->
-								<form>
-									<button type="button" class="btn btn-primary" onClick="take_snapshot()">Take Snapshot</button>
-								</form>
-								
-								<!-- Code to handle taking the snapshot and displaying it locally -->
-								<script language="JavaScript">
-									function take_snapshot() {
-										// take snapshot and get image data
-										Webcam.snap( function(data_uri) {
-											// display results in page
-											document.getElementById('results').innerHTML = 
-												'<img class="grayscale" src="'+data_uri+'"/>'+
-												'<input type="hidden" name="foto_absen" value="'+data_uri+'"/>';
-										} );
-									}
-								</script>
+							<!-- Code to handle taking the snapshot and displaying it locally -->
+							<script language="JavaScript">
+								function take_snapshot() {
+									// take snapshot and get image data
+									Webcam.snap( function(data_uri) {
+										// display results in page
+										document.getElementById('results').innerHTML = 
+											'<img class="grayscale" src="'+data_uri+'"/>'+
+											'<input type="hidden" name="foto_absen" value="'+data_uri+'"/>';
+									} );
+								}
+							</script>
 						</div>	
 					</div>
 				</div>
