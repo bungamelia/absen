@@ -109,7 +109,6 @@
 							$row = $absen->absen_list($karyawan_id);
 							$no=1;
 							foreach($row as $data){
-								//echo "<pre>"; print_r($data); echo "</pre>";
 						  ?>
 							<tr>
 								<td><?php echo $no++."."; ?></td>
@@ -121,7 +120,7 @@
 											<td class="green"><?php echo jam($data->waktu); ?></td><?php } 
 										elseif($data->status == "masuk" && $jam_masuk >= date('00:15:00') && $jam_masuk < date('00:30:00')){ ?>
 											<td class="yellow"><?php echo jam($data->waktu); ?></td><?php } 
-										elseif($data->status == "masuk" && $jam_masuk >= date('00:30:00')){ ?>
+										elseif($data->status == "masuk" && $jam_masuk >= date('00:30:00') && $jam_masuk < date('09:00:00')){ ?>
 											<td class="red"><?php echo jam($data->waktu); ?></td><?php } 
 										else{ ?>
 											<td><?php echo jam($data->waktu); ?></td><?php } 
@@ -141,7 +140,7 @@
 											<td class="green"><?php echo jam($data->waktu); ?></td><?php } 
 										elseif($data->status == "masuk" && $jam_masuk >= date('16:15:00') && $jam_masuk < date('16:30:00')){ ?>
 											<td class="yellow"><?php echo jam($data->waktu); ?></td><?php } 
-										elseif($data->status == "masuk" && $jam_masuk >= date('16:30:00')){ ?>
+										elseif($data->status == "masuk" && $jam_masuk >= date('16:30:00') && $jam_masuk < date('01:00:00')){ ?>
 											<td class="red"><?php echo jam($data->waktu); ?></td><?php } 
 										else{ ?>
 											<td><?php echo jam($data->waktu); ?></td><?php } 
