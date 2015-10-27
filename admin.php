@@ -5,7 +5,7 @@
 	$absen = new absen();
 	$karyawan = new karyawan();
 	$notice = new notice();
-	shift = new shift();
+	$shift = new shift();
 	
 	if($user->loggedin() == "0"){ 
 		header ("location: index.php");

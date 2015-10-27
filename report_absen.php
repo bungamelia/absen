@@ -17,7 +17,6 @@
 ?>
 
 <body>
-	<!-- start: Header -->
 <div class="navbar">
 	<div class="navbar-inner">
 		<div class="container-fluid">
@@ -43,7 +42,6 @@
 							<li><a href="logout.php"><i class="halflings-icon off"></i> Logout</a></li>
 						</ul>
 					</li>
-					<!-- end: User Dropdown -->
 				</ul>
 			</div>
 			<!-- end: Header Menu -->
@@ -71,7 +69,6 @@
 			</div>
 		</div>
 		<!-- end: Main Menu -->
-		<!-- start: Content -->
 		<!-- start: Content -->
 		<div id="content" class="span10">
 		<ul class="breadcrumb">
@@ -137,17 +134,36 @@
 							<td><?php echo tgl_indo($data->waktu); ?></td>
 							<?php 
 								$jam_masuk = jam($data->waktu);
-								if ($data->status == "masuk" && $jam_masuk >= date('09:01:00') && $jam_masuk < date('09:15:00')){
-							?>
-							<td class="green"><?php echo jam($data->waktu); ?></td><?php } 
-								elseif($data->status == "masuk" && $jam_masuk >= date('09:15:00') && $jam_masuk < date('09:30:00')){
-							?>
-							<td class="yellow"><?php echo jam($data->waktu); ?></td><?php } 
-								elseif($data->status == "masuk" && $jam_masuk >= date('09:30:00')){
-							?>
-							<td class="red"><?php echo jam($data->waktu); ?></td><?php } 
-							else{ ?>
-							<td><?php echo jam($data->waktu); ?></td><?php } ?>
+								if($data->id_shift == "1"){
+									if($data->status == "masuk" && $jam_masuk >= date('00:01:00') && $jam_masuk < date('00:15:00')){ ?>
+										<td class="green"><?php echo jam($data->waktu); ?></td><?php } 
+									elseif($data->status == "masuk" && $jam_masuk >= date('00:15:00') && $jam_masuk < date('00:30:00')){ ?>
+										<td class="yellow"><?php echo jam($data->waktu); ?></td><?php } 
+									elseif($data->status == "masuk" && $jam_masuk >= date('00:30:00')){ ?>
+										<td class="red"><?php echo jam($data->waktu); ?></td><?php } 
+									else{ ?>
+										<td><?php echo jam($data->waktu); ?></td><?php } 
+								} 
+								elseif($data->id_shift == "2" || $data->id_shift == "4"){ 
+									if($data->status == "masuk" && $jam_masuk >= date('09:01:00') && $jam_masuk < date('09:15:00')){ ?>
+										<td class="green"><?php echo jam($data->waktu); ?></td><?php } 
+									elseif($data->status == "masuk" && $jam_masuk >= date('09:15:00') && $jam_masuk < date('09:30:00')){ ?>
+										<td class="yellow"><?php echo jam($data->waktu); ?></td><?php } 
+									elseif($data->status == "masuk" && $jam_masuk >= date('09:30:00')){ ?>
+										<td class="red"><?php echo jam($data->waktu); ?></td><?php } 
+									else{ ?>
+										<td><?php echo jam($data->waktu); ?></td><?php } 
+								}
+								else{ 
+									if($data->status == "masuk" && $jam_masuk >= date('16:01:00') && $jam_masuk < date('16:15:00')){ ?>
+										<td class="green"><?php echo jam($data->waktu); ?></td><?php } 
+									elseif($data->status == "masuk" && $jam_masuk >= date('16:15:00') && $jam_masuk < date('16:30:00')){ ?>
+										<td class="yellow"><?php echo jam($data->waktu); ?></td><?php } 
+									elseif($data->status == "masuk" && $jam_masuk >= date('16:30:00')){ ?>
+										<td class="red"><?php echo jam($data->waktu); ?></td><?php } 
+									else{ ?>
+										<td><?php echo jam($data->waktu); ?></td><?php } 
+								} ?>
 							<td><?php echo $data->status; ?></td>
 						</tr>
 						<?php } }
@@ -167,7 +183,7 @@
 					  </tbody>
 					</table>
 				 
-					<form method="post" action="excel.php" >
+					<form method="post" action="excel.php">
 					<div class="form-actions">
 						<?php 
 						if(isset($_POST['search'])){ 
@@ -202,8 +218,7 @@
 				</div>
 			</div><!--/span-->
 		</div><!--/row-->
-	</div>
-	<!-- end: Content -->
+	</div<!-- end: Content -->
 	</div><!--/#content.span10-->
 </div><!--/fluid-row-->
 <div class="clearfix"></div>
