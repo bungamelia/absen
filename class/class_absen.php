@@ -8,13 +8,14 @@
 			$this->obj = new db;
 		}
 		
-		public function add_absen($id_karyawan, $waktu, $status){
+		public function add_absen($id_karyawan, $id_shift, $waktu, $status){
 			try{
-				$query = "INSERT INTO absen(id_karyawan, waktu, status) VALUES 
-						(:id_karyawan, :waktu, :status)";
+				$query = "INSERT INTO absen(id_karyawan, id_shift, waktu, status) VALUES 
+						(:id_karyawan, :id_shift, :waktu, :status)";
 				
 				$this->obj->query($query);
 				$this->obj->bind(':id_karyawan',$id_karyawan);
+				$this->obj->bind(':id_shift',$id_shift);
 				$this->obj->bind(':waktu',$waktu);
 				$this->obj->bind(':status',$status);
 				$this->obj->execute();

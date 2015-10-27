@@ -76,15 +76,16 @@
 			return $data;
 		}
 		
-		public function cek_shiftline($karyawan_id){
-			$query = "SELECT * FROM shift_line WHERE id_karyawan=:karyawan_id";
+		public function today_shiftline($karyawan_id, $tgl_skrg){
+			$query = "SELECT tanggal_shift, id_shift FROM shift_line WHERE id_karyawan=:karyawan_id AND tanggal_shift=:tgl_skrg ";
 			$this->obj->query($query);
 			$this->obj->bind(':karyawan_id',$karyawan_id);
+			$this->obj->bind(':tgl_skrg',$tgl_skrg);
 			$this->obj->execute();
 			$data = $this->obj->single();
 			return $data;
 		}
-		
+				
 		public function getAll_shiftline(){
 			$query = "SELECT * FROM shift_line";
 			$this->obj->query($query);
