@@ -40,13 +40,11 @@
 	
 	if(isset($_POST['keluar'])){
 		$data_a = $absen->getID_absen($id_karyawan);
-		$tgl_shift = explode(" ",$data_a->waktu);
-		$getID_shift = $shift->today_shiftline($_SESSION['id_karyawan'], $tgl_shift[0]);
 		
 		$id_karyawan = $_SESSION['id_karyawan'];
 		$waktu = $_POST['waktu'];
 		$status = 'keluar';
-		$id_shift = $getID_shift->id_shift;
+		$id_shift = $data_a->id_shift;
 		
 		$absen->add_absen($id_karyawan, $id_shift, $waktu, $status);
 		
@@ -184,13 +182,10 @@
 								<input type="submit" class="btn btn-primary" name="masuk" value="Absen Masuk">
 							<?php } 
 							elseif($data->status == "masuk" && $tgl_db != $hariini){
-								$tgl_shift = explode(" ",$data->waktu);
-								$getID_shift = $shift->today_shiftline($_SESSION['id_karyawan'], $tgl_shift[0]);
-								
 								$id_karyawan = $_SESSION['id_karyawan'];
 								$waktu = $date_add;
 								$status = "keluar";
-								$id_shift = $getID_shift->id_shift;
+								$id_shift = $data->id_shift;
 								
 								$absen->add_absen($id_karyawan, $id_shift, $waktu, $status);	?>
 								<input type="submit" class="btn btn-primary" name="masuk" value="Absen Masuk">
