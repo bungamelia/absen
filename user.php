@@ -6,13 +6,13 @@
 	$notice = new notice();
 	$shift = new shift();
 	
-	if($user->loggedin() == "0"){ 
+	if ($user->loggedin() == "0") { 
 		header ("location: index.php");
 	} 
 	
 	$employee_id = $_SESSION['id_karyawan'];
 	
-	if(isset($_POST['masuk'])){
+	if (isset($_POST['masuk'])) {
 		$tahun 		= date('Y');
 		$bulan 		= date('m');
 		$tanggal 	= date('d');
@@ -29,7 +29,7 @@
 		$waktu = $_POST['waktu'];
 		$status = 'masuk';
 		$id_shift = $row_shift->id_shift;
-		if(empty($row_shift->tanggal_shift)){
+		if (empty($row_shift->tanggal_shift)) {
 			$id_shift = "4";
 		}
 		
@@ -38,7 +38,7 @@
 		header ("location: user.php");
 	}
 	
-	if(isset($_POST['keluar'])){
+	if (isset($_POST['keluar'])) {
 		$data_a = $absen->getID_absen($id_karyawan);
 		
 		$id_karyawan = $_SESSION['id_karyawan'];
@@ -93,16 +93,16 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><?php if($_SESSION['id_jabatan'] == 1){ ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
+						<li><?php if ($_SESSION['id_jabatan'] == 1) { ?><a href="admin.php"><?php } else { ?><a href="user.php"><?= } ?>
 						<i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>	
 						<li><a href="laporan_user.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 						<li><a href="absen_user.php"><i class="icon-user"></i><span class="hidden-tablet"> Absen</span></a></li>
 						<?php
 							$user_shift = $shift->tampil_shiftline($_SESSION['id_karyawan']);
-							foreach($user_shift as $all_shiftline){
+							foreach ($user_shift as $all_shiftline) {
 								$getUser = $all_shiftline->id_karyawan;				
 							}
-							if($getUser == $_SESSION['id_karyawan']){ 
+							if ($getUser == $_SESSION['id_karyawan']) { 
 						?>
 						<li><a href="shift_user.php"><i class="icon-time"></i><span class="hidden-tablet"> Jadwal Shift</span></a></li><?php } ?>
 					</ul>
@@ -127,7 +127,7 @@
 			<div class="row-fluid sortable">
 				<div class="box span4">
 					<div class="box-header">
-						<h2><i class="icon-home"></i><span class="break"></span>Selamat datang, <?php echo $username; ?> </h2>
+						<h2><i class="icon-home"></i><span class="break"></span>Selamat datang, <?= echo $username; ?> </h2>
 					</div>
 					<div class="box-content">
 						<div class="row-fluid">
@@ -137,23 +137,21 @@
 									<div id="results">
 									<?php
 										$state = $absen->getID_absen($employee_id);
-										if ($state->status == "masuk"){
+										if ($state->status == "masuk") {
 											$date = explode(" ", $state->waktu);
 											$tanggal = explode("-", $date[0]);
 											$tgl_foto = $tanggal[2]."-".$tanggal[1]."-".$tanggal[0];
 											$hariini = date('d-m-Y');
 											
-											if($tgl_foto == $hariini){
+											if ($tgl_foto == $hariini) {
 												$filename = "uploads/".$state->id_karyawan."/".tahun($state->waktu)."/".bulan($state->waktu)."/".tanggal($state->waktu)."/".$state->id_karyawan."-".$tgl_foto.".jpeg";
 												if(file_exists($filename)){ ?>
 													<img class="grayscale" src="<?php echo $filename;?>" alt="Sample Image 1"></a><?php 
 												}
-											}
-											else{ ?>
+											} else { ?>
 												<img class="grayscale" src="http://www.gamesindustry.biz/img/base/default-user.png" alt="Sample Image 1"></a><?php
 											}
-										}
-										else{ ?>
+										} else { ?>
 											<img class="grayscale" src="http://www.gamesindustry.biz/img/base/default-user.png" alt="Sample Image 1"></a><?php } ?>
 									</div>
 								</div>
@@ -163,7 +161,7 @@
 						 <?php
 							$data = $absen->getID_absen($id_karyawan);
 							$tgl_db = tgl_indo($data->waktu);
-							if($data->status == "keluar"){
+							if ($data->status == "keluar") {
 						 ?>
 							<div class="span12">
 								<p>Absen keluar terakhir: <?php echo "<br>".$tgl_db." - ".jam($data->waktu); ?></p>
@@ -178,10 +176,10 @@
 							$hariini = tgl_indo(date('Y-m-d'));
 							$date_add = date('Y-m-d H:i:s',strtotime('+18 hours',strtotime($data->waktu)));
 							
-							if($data->status == "keluar"){ ?>
+							if ($data->status == "keluar") { ?>
 								<input type="submit" class="btn btn-primary" name="masuk" value="Absen Masuk">
-							<?php } 
-							elseif($data->status == "masuk" && $tgl_db != $hariini){
+							<?php 
+							} elseif ($data->status == "masuk" && $tgl_db != $hariini) {
 								$id_karyawan = $_SESSION['id_karyawan'];
 								$waktu = $date_add;
 								$status = "keluar";
@@ -189,8 +187,8 @@
 								
 								$absen->add_absen($id_karyawan, $id_shift, $waktu, $status);	?>
 								<input type="submit" class="btn btn-primary" name="masuk" value="Absen Masuk">
-							<?php }
-							elseif($data->status == "masuk" && $tgl_db == $hariini){ ?>
+							<?php 
+							} elseif($data->status == "masuk" && $tgl_db == $hariini) { ?>
 								<input type="submit" class="btn btn-primary" name="keluar" value="Absen Keluar"><?php } ?>
 						  <a class="btn btn-primary" href="add_laporan.php" >Laporan</a></form>
 						</div>
@@ -208,7 +206,7 @@
 						<ul class="dashboard-list">
 						<?php
 							$datas = $notice->show_notice($_SESSION['id_karyawan']);
-							foreach($datas as $rows){
+							foreach ($datas as $rows) {
 						?>
 							<li>
 								<strong>Name Karyawan:</strong> <?php echo $rows->nama_karyawan; ?><br>
@@ -221,7 +219,7 @@
 				</div><!--/span-->
 				<?php 
 					error_reporting(0);
-					if(!file_exists($filename)){
+					if (!file_exists($filename)) {
 				?>
 				<div class="box span4 noMargin" onTablet="span12" onDesktop="span4">
 					<div class="box-header">

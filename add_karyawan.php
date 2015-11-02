@@ -5,18 +5,17 @@
 	$karyawan = new karyawan();
 	$absen = new absen();
 	
-	if($user->loggedin() == "0"){ 
+	if ($user->loggedin() == "0") { 
 		header("Location = index.php");
 	} 
 	
-	if($_SESSION['id_jabatan'] != 1){
+	if ($_SESSION['id_jabatan'] != 1) {
 		header ("location: index.php");
 	}
 	
 	$employee_id = $_SESSION['id_karyawan'];
 	
-	//print_r($_SESSION);
-	if(isset($_POST['submit'])){
+	if (isset($_POST['submit'])) {
 		$userkaryawan = $_POST['userkaryawan'];
 		$password = $_POST['password'];
 		$nama_karyawan = $_POST['nama_karyawan'];
@@ -29,26 +28,24 @@
 		
 		$ttl = $tempat.", ".$tanggal[1]."-".$tanggal[0]."-".$tanggal[2];
 		
-		if(strlen($userkaryawan) < 3){
+		if(strlen($userkaryawan) < 3) {
 			$error[] = 'Username is too short.';
-		} 
-		else{
+		} else {
 			$karyawan->cek_username($userkaryawan);
 		}
 		
-		if(strlen($password) < 3){
+		if (strlen($password) < 3) {
 			$error[] = 'Password is too short.';
 		}
 		
-		if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 			$error[] = 'Please enter a valid email address';
-		} 
-		else{
+		} else {
 			$karyawan->cek_email($email);
 		}
 		
-		if(!isset($error)){
-			try{
+		if (!isset($error)) {
+			try {
 				$karyawan->add_karyawan($userkaryawan, $nama_karyawan, $jabatan, $ttl, $alamat, $jenis_kelamin, $email, $password);
 				$getuser = $karyawan->user_karyawan($userkaryawan);
 				$getidkry = $getuser->id_karyawan;
@@ -56,14 +53,14 @@
 				$status = "keluar";
 				$absen->add_absen($getidkry, $waktu, $status);
 			}
-		catch(PDOException $e){
+			catch (PDOException $e) {
 				echo $e->getMessage();
 			}
 		}
 	}
 ?>
 	<body>
-			<!-- start: Header -->
+		<!-- start: Header -->
 		<div class="navbar">
 			<div class="navbar-inner">
 				<div class="container-fluid">
@@ -73,7 +70,7 @@
 						<span class="icon-bar"></span>
 					</a>
 					<a class="brand" href="index.html"><span>Maxindo Content Solution</span></a>
-									
+					
 					<!-- start: Header Menu -->
 					<div class="nav-no-collapse header-nav">
 						<ul class="nav pull-right">
@@ -105,23 +102,23 @@
 					<ul class="nav nav-tabs nav-stacked main-menu">
 						<li><a href="admin.php"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 						<?php
-							if($_SESSION['id_jabatan'] == 1){
+							if ($_SESSION['id_jabatan'] == 1) {
 						?>	
 						<li><a href="list_laporan.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 						<li><a href="list_karyawan.php"><i class="icon-user"></i><span class="hidden-tablet"> Karyawan</span></a></li>
 						<li><a href="report_absen.php"><i class="icon-check"></i><span class="hidden-tablet"> Absen</span></a></li>
 						<li><a href="list_shift.php"><i class="icon-time"></i><span class="hidden-tablet"> Shift</span></a></li>
-						<?php } else{ ?>
+						<?php } else { ?>
 						<li><a href="laporan_user.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 						<li><a href="absen_user.php"><i class="icon-check"></i><span class="hidden-tablet"> Absen</span></a></li>
 						<?php
 							$user_shift = $shift->tampil_shiftline($_SESSION['id_karyawan']);
-							foreach($user_shift as $all_shiftline){
+							foreach ($user_shift as $all_shiftline) {
 								$getUser = $all_shiftline->id_karyawan;				
 							}
-							if($getUser == $_SESSION['id_karyawan']){ 
+							if ($getUser == $_SESSION['id_karyawan']) { 
 						?>
-						<li><a href="shift_user.php"><i class="icon-time"></i><span class="hidden-tablet"> Jadwal Shift</span></a></li><?php } }?>
+						<li><a href="shift_user.php"><i class="icon-time"></i><span class="hidden-tablet"> Jadwal Shift</span></a></li><?php } } ?>
 					</ul>
 				</div>
 			</div>
@@ -139,7 +136,8 @@
 			</ul>
 			<?php 
 				$username = $_SESSION['username'];
-				$id_karyawan = $_SESSION['id_karyawan'];	?>
+				$id_karyawan = $_SESSION['id_karyawan'];
+			?>
 			<div class="row-fluid sortable">
 				<div class="box span12">
 					<div class="box-header">
@@ -172,7 +170,7 @@
 								  <select id="jabatan" name="jabatan">
 								  <?php 
 									$baris = $karyawan->getID_jabatan();
-									foreach($baris as $jbtn){
+									foreach ($baris as $jbtn) {
 								  ?>
 									<option name="jabatan" value="<?php echo $jbtn->id_jabatan; ?>"><?php echo $jbtn->nama_jabatan; ?></option>
 									<?php } ?>
@@ -203,10 +201,10 @@
 								  <select id="jenis_kelamin" name="jenis_kelamin">
 								  <?php 
 									$row = $karyawan->getID_jk();
-									foreach($row as $data){
+									foreach ($row as $data) {
 								  ?>
-									<option name="jenis_kelamin" value="<?php echo $data->id_jenis_kelamin; ?>" ><?php echo $data->jenis_kelamin; ?></option>
-									<?php } ?>
+									<option name="jenis_kelamin" value="<?= echo $data->id_jenis_kelamin; ?>" ><?= echo $data->jenis_kelamin; ?></option>
+									<?= } ?>
 								  </select>
 								</div>
 							</div>

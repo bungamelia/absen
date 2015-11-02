@@ -5,7 +5,7 @@
 	$karyawan = new karyawan();
 	$shift = new shift();
 	
-	if($user->loggedin() == "0"){ 
+	if ($user->loggedin() == "0") { 
 		header ("location: index.php");
 	} 
 	
@@ -54,10 +54,10 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><?php if($_SESSION['id_jabatan'] == 1){ ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
+						<li><?php if ($_SESSION['id_jabatan'] == 1) { ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
 						<i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 						<?php
-							if($_SESSION['id_jabatan'] == 1){
+							if ($_SESSION['id_jabatan'] == 1) {
 						?>	
 						<li><a href="list_laporan.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 						<li><a href="list_karyawan.php"><i class="icon-user"></i><span class="hidden-tablet"> Karyawan</span></a></li>
@@ -68,10 +68,10 @@
 						<li><a href="absen_user.php"><i class="icon-check"></i><span class="hidden-tablet"> Absen</span></a></li>
 						<?php
 							$user_shift = $shift->tampil_shiftline($_SESSION['id_karyawan']);
-							foreach($user_shift as $all_shiftline){
+							foreach ($user_shift as $all_shiftline) {
 								$getUser = $all_shiftline->id_karyawan;				
 							}
-							if($getUser == $_SESSION['id_karyawan']){ 
+							if ($getUser == $_SESSION['id_karyawan']) { 
 						?>
 						<li><a href="shift_user.php"><i class="icon-time"></i><span class="hidden-tablet"> Jadwal Shift</span></a></li><?php } }?>
 					</ul>
@@ -102,9 +102,9 @@
 						<table class="table table-bordered">
 							  <tbody>
 								<tr>
-								<?php if($data->foto == ""){ ?>
+								<?php if ($data->foto == "") { ?>
 									<td rowspan="7" align="center"><img class="grayscale" src="http://www.gamesindustry.biz/img/base/default-user.png" alt="Sample Image 1"></td>
-								<?php } else{ ?>
+								<?php } else { ?>
 									<td rowspan="7" align="center"><img class="grayscale" width="245" height="250" src="bootstrap/foto_profile/<?php echo $data->foto; ?>" alt="Sample Image 1"></td>
 								<?php } ?>
 								</tr>
@@ -135,7 +135,7 @@
 							  </tbody>
 						 </table>  
 						 <?php 
-							if($username == $data->username){ ?>
+							if ($username == $data->username) { ?>
 							<div class="form-actions">
 								<a href="edit_karyawan.php?id=<?php echo $karyawan_id; ?>" class="btn btn-primary">Edit Profile</a>
 								<a href="edit_password.php?id=<?php echo $karyawan_id; ?>" class="btn btn-primary">Ganti Password</a>

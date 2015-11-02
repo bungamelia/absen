@@ -5,14 +5,14 @@
 	$report = new laporan();
 	$shift = new shift();	
 	
-	if($user->loggedin() == "0"){ 
+	if ($user->loggedin() == "0") { 
 		header("Location = index.php");
 	} 
 	
 	$employee_id = $_SESSION['id_karyawan'];
 		
 	
-	if(isset($_POST['draft'])){
+	if (isset($_POST['draft'])) {
 		$id_karyawan = $_SESSION['id_karyawan'];
 		$id_jabatan = $_SESSION['id_jabatan'];
 		$create_date = $_POST['waktu'];
@@ -22,15 +22,14 @@
 		$state = 'draft';
 		
 		$report->add_laporan($id_karyawan, $id_jabatan, $create_date, $modify_date, $subject, $laporan, $state);
-		if($_SESSION['id_jabatan'] == 1){
+		if ($_SESSION['id_jabatan'] == 1) {
 			header ("location: list_laporan.php");
-		}
-		else{
+		} else {
 			header ("location: laporan_user.php");
 		}
 	}
 	
-	if(isset($_POST['publish'])){
+	if (isset($_POST['publish'])) {
 		$id_karyawan = $_SESSION['id_karyawan'];
 		$id_jabatan = $_SESSION['id_jabatan'];
 		$create_date = $_POST['waktu'];
@@ -40,10 +39,9 @@
 		$state = 'publish';
 		
 		$report->add_laporan($id_karyawan, $id_jabatan, $create_date, $modify_date, $subject, $laporan, $state);
-		if($_SESSION['id_jabatan'] == 1){
+		if ($_SESSION['id_jabatan'] == 1) {
 			header ("location: list_laporan.php");
-		}
-		else{
+		} else {
 			header ("location: laporan_user.php");
 		}
 	}
@@ -66,13 +64,13 @@
 						<ul class="nav pull-right">
 							<li class="dropdown">
 								<a class="btn dropdown-toggle" data-toggle="dropdown">
-									<i class="halflings-icon white user"></i><?php echo $_SESSION['username']; ?><span class="caret"></span>
+									<i class="halflings-icon white user"></i><?= echo $_SESSION['username']; ?><span class="caret"></span>
 								</a>
 								<ul class="dropdown-menu">
 									<li class="dropdown-menu-title">
 										<span>Account Settings</span>
 									</li>
-									<li><a href="detail_karyawan.php?id=<?php echo $employee_id; ?>"><i class="halflings-icon user"></i>Profile</a></li>
+									<li><a href="detail_karyawan.php?id=<?= echo $employee_id; ?>"><i class="halflings-icon user"></i>Profile</a></li>
 									<li><a href="logout.php"><i class="halflings-icon off"></i> Logout</a></li>
 								</ul>
 							</li>
@@ -90,10 +88,10 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><?php if($_SESSION['id_jabatan'] == 1){ ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
+						<li><?php if ($_SESSION['id_jabatan'] == 1) { ?><a href="admin.php"><?php } else { ?><a href="user.php"><?= } ?>
 						<i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>	
 						<?php
-							if($_SESSION['id_jabatan'] == 1){
+							if ($_SESSION['id_jabatan'] == 1) {
 						?>	
 						<li><a href="list_laporan.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 						<li><a href="list_karyawan.php"><i class="icon-user"></i><span class="hidden-tablet"> Karyawan</span></a></li>
@@ -104,12 +102,12 @@
 						<li><a href="absen_user.php"><i class="icon-check"></i><span class="hidden-tablet"> Absen</span></a></li>
 						<?php
 							$user_shift = $shift->tampil_shiftline($_SESSION['id_karyawan']);
-							foreach($user_shift as $all_shiftline){
+							foreach ($user_shift as $all_shiftline) {
 								$getUser = $all_shiftline->id_karyawan;				
 							}
-							if($getUser == $_SESSION['id_karyawan']){ 
+							if ($getUser == $_SESSION['id_karyawan']) { 
 						?>
-						<li><a href="shift_user.php"><i class="icon-time"></i><span class="hidden-tablet"> Jadwal Shift</span></a></li><?php } }?>
+						<li><a href="shift_user.php"><i class="icon-time"></i><span class="hidden-tablet"> Jadwal Shift</span></a></li><?php } } ?>
 					</ul>
 				</div>
 			</div>
@@ -138,9 +136,9 @@
 					<div class="box-content">
 						<form class="form-horizontal" method="POST">
 						  <fieldset>
-							<input type="hidden" name="waktu" value="<?php echo date('Y-m-d H:i:s');?>">
-							<input type="hidden" name="id_karyawan" value="<?php echo $id_karyawan;?>">
-							<input type="hidden" name="id_jabatan" value="<?php echo $id_jabatan;?>">
+							<input type="hidden" name="waktu" value="<?= echo date('Y-m-d H:i:s');?>">
+							<input type="hidden" name="id_karyawan" value="<?= echo $id_karyawan;?>">
+							<input type="hidden" name="id_jabatan" value="<?= echo $id_jabatan;?>">
 							<div class="control-group">
 							  <label class="control-label" for="typeahead">Subject</label>
 							  <div class="controls">

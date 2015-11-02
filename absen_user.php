@@ -6,7 +6,7 @@
 	$karyawan = new karyawan();
 	$shift = new shift();
 	
-	if($user->loggedin() == "0"){ 
+	if ($user->loggedin() == "0") { 
 		header("Location = index.php");
 	} 
 	
@@ -54,26 +54,26 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><?php if($_SESSION['id_jabatan'] == 1){ ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
+						<li><?php if ($_SESSION['id_jabatan'] == 1) { ?><a href="admin.php"><?php } else { ?><a href="user.php"><?= } ?>
 						<i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 						<li><a href="laporan_user.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 						<li><a href="absen_user.php"><i class="icon-user"></i><span class="hidden-tablet"> Absen</span></a></li>
 						<?php
 							$user_shift = $shift->tampil_shiftline($_SESSION['id_karyawan']);
-							foreach($user_shift as $all_shiftline){
+							foreach ($user_shift as $all_shiftline) {
 								$getUser = $all_shiftline->id_karyawan;				
 							}
-							if($getUser == $_SESSION['id_karyawan']){ 
+							if ($getUser == $_SESSION['id_karyawan']) { 
 						?>
-							<li><a href="shift_user.php"><i class="icon-time"></i><span class="hidden-tablet"> Jadwal Shift</span></a></li><?php } ?>
+							<li><a href="shift_user.php"><i class="icon-time"></i><span class="hidden-tablet"> Jadwal Shift</span></a></li><?= } ?>
 						<?php
-							if($_SESSION['id_jabatan'] == 1){
+							if ($_SESSION['id_jabatan'] == 1) {
 						?>
 						<li><a href="list_karyawan.php"><i class="icon-user"></i><span class="hidden-tablet"> Karyawan</span></a></li>
 						<li><a href="list_laporan.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 						<li><a href="report_absen.php"><i class="icon-check"></i><span class="hidden-tablet"> Absen</span></a></li>
 						<li><a href="list_shift.php"><i class="icon-time"></i><span class="hidden-tablet"> Shift</span></a></li>
-						<?php }?>
+						<?= } ?>
 					</ul>
 				</div>
 			</div>
@@ -108,42 +108,43 @@
 						  <?php 
 							$row = $absen->absen_list($karyawan_id);
 							$no=1;
-							foreach($row as $data){
+							foreach ($row as $data) {
 						  ?>
 							<tr>
 								<td><?php echo $no++."."; ?></td>
 								<td><?php echo tgl_indo($data->waktu); ?></td>
 								<?php 
 									$jam_masuk = jam($data->waktu);
-									if($data->id_shift == "1"){
-										if($data->status == "masuk" && $jam_masuk >= date('00:01:00') && $jam_masuk < date('00:15:00')){ ?>
-											<td class="green"><?php echo jam($data->waktu); ?></td><?php } 
-										elseif($data->status == "masuk" && $jam_masuk >= date('00:15:00') && $jam_masuk < date('00:30:00')){ ?>
-											<td class="yellow"><?php echo jam($data->waktu); ?></td><?php } 
-										elseif($data->status == "masuk" && $jam_masuk >= date('00:30:00') && $jam_masuk < date('09:00:00')){ ?>
-											<td class="red"><?php echo jam($data->waktu); ?></td><?php } 
-										else{ ?>
-											<td><?php echo jam($data->waktu); ?></td><?php } 
-									} 
-									elseif($data->id_shift == "2" || $data->id_shift == "4"){ 
-										if($data->status == "masuk" && $jam_masuk >= date('09:01:00') && $jam_masuk < date('09:15:00')){ ?>
-											<td class="green"><?php echo jam($data->waktu); ?></td><?php } 
-										elseif($data->status == "masuk" && $jam_masuk >= date('09:15:00') && $jam_masuk < date('09:30:00')){ ?>
-											<td class="yellow"><?php echo jam($data->waktu); ?></td><?php } 
-										elseif($data->status == "masuk" && $jam_masuk >= date('09:30:00')){ ?>
-											<td class="red"><?php echo jam($data->waktu); ?></td><?php } 
-										else{ ?>
-											<td><?php echo jam($data->waktu); ?></td><?php } 
-									}
-									else{ 
-										if($data->status == "masuk" && $jam_masuk >= date('16:01:00') && $jam_masuk < date('16:15:00')){ ?>
-											<td class="green"><?php echo jam($data->waktu); ?></td><?php } 
-										elseif($data->status == "masuk" && $jam_masuk >= date('16:15:00') && $jam_masuk < date('16:30:00')){ ?>
-											<td class="yellow"><?php echo jam($data->waktu); ?></td><?php } 
-										elseif($data->status == "masuk" && $jam_masuk >= date('16:30:00') && $jam_masuk < date('01:00:00')){ ?>
-											<td class="red"><?php echo jam($data->waktu); ?></td><?php } 
-										else{ ?>
-											<td><?php echo jam($data->waktu); ?></td><?php } 
+									if ($data->id_shift == "1") {
+										if ($data->status == "masuk" && $jam_masuk >= date('00:01:00') && $jam_masuk < date('00:15:00')) { ?>
+											<td class="green"><?php echo jam($data->waktu); ?></td><?php 
+										} elseif($data->status == "masuk" && $jam_masuk >= date('00:15:00') && $jam_masuk < date('00:30:00')) { ?>
+											<td class="yellow"><?php echo jam($data->waktu); ?></td><?php  
+										} elseif($data->status == "masuk" && $jam_masuk >= date('00:30:00') && $jam_masuk < date('09:00:00')) { ?>
+											<td class="red"><?php echo jam($data->waktu); ?></td><?php 
+										} else { ?>
+											<td><?php echo jam($data->waktu); ?></td><?php 
+										} 
+									} elseif ($data->id_shift == "2" || $data->id_shift == "4") { 
+										if ($data->status == "masuk" && $jam_masuk >= date('09:01:00') && $jam_masuk < date('09:15:00')) { ?>
+											<td class="green"><?php echo jam($data->waktu); ?></td><?php 
+										} elseif ($data->status == "masuk" && $jam_masuk >= date('09:15:00') && $jam_masuk < date('09:30:00')) { ?>
+											<td class="yellow"><?php echo jam($data->waktu); ?></td><?php
+										} elseif($data->status == "masuk" && $jam_masuk >= date('09:30:00')) { ?>
+											<td class="red"><?php echo jam($data->waktu); ?></td><?php
+										} else { ?>
+											<td><?php echo jam($data->waktu); ?></td><?php 
+										} 
+									} else { 
+										if ($data->status == "masuk" && $jam_masuk >= date('16:01:00') && $jam_masuk < date('16:15:00')) { ?>
+											<td class="green"><?php echo jam($data->waktu); ?></td><?php 
+										} elseif($data->status == "masuk" && $jam_masuk >= date('16:15:00') && $jam_masuk < date('16:30:00')) { ?>
+											<td class="yellow"><?php echo jam($data->waktu); ?></td><?php 
+										} elseif($data->status == "masuk" && $jam_masuk >= date('16:30:00') && $jam_masuk < date('01:00:00')) { ?>
+											<td class="red"><?php echo jam($data->waktu); ?></td><?php
+										} else { ?>
+											<td><?php echo jam($data->waktu); ?></td><?php 
+										} 
 									} ?>
 								<td><?php echo $data->status; ?></td>
 							</tr><?php } ?>

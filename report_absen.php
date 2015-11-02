@@ -5,10 +5,10 @@
 	$absen = new absen();
 	$karyawan = new karyawan();
 	
-	if($user->loggedin() == "0"){ 
+	if ($user->loggedin() == "0") { 
 		header ("location: index.php");
 	} 
-	if($_SESSION['id_jabatan'] != 1){
+	if ($_SESSION['id_jabatan'] != 1) {
 		header ("location: index.php");
 	}
 	
@@ -55,16 +55,16 @@
 		<div id="sidebar-left" class="span2">
 			<div class="nav-collapse sidebar-nav">
 				<ul class="nav nav-tabs nav-stacked main-menu">
-					<li><?php if($_SESSION['id_jabatan'] == 1){ ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
+					<li><?php if ($_SESSION['id_jabatan'] == 1) { ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
 					<i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 					<li><a href="list_laporan.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 					<?php
-						if($_SESSION['id_jabatan'] == 1){
+						if ($_SESSION['id_jabatan'] == 1) {
 					?>
 					<li><a href="list_karyawan.php"><i class="icon-user"></i><span class="hidden-tablet"> Karyawan</span></a></li>
 					<li><a href="report_absen.php"><i class="icon-check"></i><span class="hidden-tablet"> Absen</span></a></li>
 					<li><a href="list_shift.php"><i class="icon-time"></i><span class="hidden-tablet"> Shift</span></a></li>
-					<?php }?>
+					<?php } ?>
 				</ul>
 			</div>
 		</div>
@@ -93,10 +93,10 @@
 						<option selected="selected" value="tampil">Search by User</option>
 						<?php
 							$baris = $karyawan->tampil_karyawan();
-							foreach($baris as $krywn){
+							foreach ($baris as $krywn) {
 						?>
 						<option value="<?php echo $krywn->id_karyawan; ?>"><?php echo $krywn->nama_karyawan; ?></option>
-						<?php }  ?>
+						<?php } ?>
 						</select>
 						<input type="submit" class="btn btn-primary" value="Search" name="search">
 					  </div>
@@ -113,20 +113,19 @@
 					  </thead>   
 					  <tbody>
 					  <?php 
-						if(isset($_POST['search'])){
+						if (isset($_POST['search'])) {
 							$nama_karyawan = $_POST['nama_karyawan'];
 							$tgl_dari = explode("/", $_POST['dari']);
 							$dari = $tgl_dari[2]."-".$tgl_dari[0]."-".$tgl_dari[1];
 							$tgl_sampai = explode("/", $_POST['sampai']);
 							$sampai = $tgl_sampai[2]."-".$tgl_sampai[0]."-".$tgl_sampai[1];
-							if($nama_karyawan == "tampil"){
+							if ($nama_karyawan == "tampil") {
 								$row = $absen->absenBy_date($dari, $sampai);
-							}
-							else{
+							} else {
 								$row = $absen->absen_history($nama_karyawan, $dari, $sampai);
 							}
 							$no=1;
-							foreach($row as $data){
+							foreach ($row as $data) {
 					  ?>
 						<tr>
 							<td><?php echo $no++."."; ?></td>
@@ -134,43 +133,44 @@
 							<td><?php echo tgl_indo($data->waktu); ?></td>
 							<?php 
 								$jam_masuk = jam($data->waktu);
-								if($data->id_shift == "1"){
-									if($data->status == "masuk" && $jam_masuk >= date('00:01:00') && $jam_masuk < date('00:15:00')){ ?>
-										<td class="green"><?php echo jam($data->waktu); ?></td><?php } 
-									elseif($data->status == "masuk" && $jam_masuk >= date('00:15:00') && $jam_masuk < date('00:30:00')){ ?>
-										<td class="yellow"><?php echo jam($data->waktu); ?></td><?php } 
-									elseif($data->status == "masuk" && $jam_masuk >= date('00:30:00') && $jam_masuk < date('09:00:00')){ ?>
-										<td class="red"><?php echo jam($data->waktu); ?></td><?php } 
-									else{ ?>
-										<td><?php echo jam($data->waktu); ?></td><?php } 
-								} 
-								elseif($data->id_shift == "2" || $data->id_shift == "4"){ 
-									if($data->status == "masuk" && $jam_masuk >= date('09:01:00') && $jam_masuk < date('09:15:00')){ ?>
-										<td class="green"><?php echo jam($data->waktu); ?></td><?php } 
-									elseif($data->status == "masuk" && $jam_masuk >= date('09:15:00') && $jam_masuk < date('09:30:00')){ ?>
-										<td class="yellow"><?php echo jam($data->waktu); ?></td><?php } 
-									elseif($data->status == "masuk" && $jam_masuk >= date('09:30:00')){ ?>
-										<td class="red"><?php echo jam($data->waktu); ?></td><?php } 
-									else{ ?>
-										<td><?php echo jam($data->waktu); ?></td><?php } 
-								}
-								else{ 
-									if($data->status == "masuk" && $jam_masuk >= date('16:01:00') && $jam_masuk < date('16:15:00')){ ?>
-										<td class="green"><?php echo jam($data->waktu); ?></td><?php } 
-									elseif($data->status == "masuk" && $jam_masuk >= date('16:15:00') && $jam_masuk < date('16:30:00')){ ?>
-										<td class="yellow"><?php echo jam($data->waktu); ?></td><?php } 
-									elseif($data->status == "masuk" && $jam_masuk >= date('16:30:00') && $jam_masuk < date('01:00:00')){ ?>
-										<td class="red"><?php echo jam($data->waktu); ?></td><?php } 
-									else{ ?>
-										<td><?php echo jam($data->waktu); ?></td><?php } 
+								if ($data->id_shift == "1") {
+									if ($data->status == "masuk" && $jam_masuk >= date('00:01:00') && $jam_masuk < date('00:15:00')) { ?>
+										<td class="green"><?php echo jam($data->waktu); ?></td><?php 
+									} elseif ($data->status == "masuk" && $jam_masuk >= date('00:15:00') && $jam_masuk < date('00:30:00')) { ?>
+										<td class="yellow"><?php echo jam($data->waktu); ?></td><?php 
+									} elseif ($data->status == "masuk" && $jam_masuk >= date('00:30:00') && $jam_masuk < date('09:00:00')) { ?>
+										<td class="red"><?php echo jam($data->waktu); ?></td><?php  
+									} else { ?>
+										<td><?php echo jam($data->waktu); ?></td><?php 
+									} 
+								} elseif($data->id_shift == "2" || $data->id_shift == "4") { 
+									if ($data->status == "masuk" && $jam_masuk >= date('09:01:00') && $jam_masuk < date('09:15:00')) { ?>
+										<td class="green"><?php echo jam($data->waktu); ?></td><?php 
+									} elseif ($data->status == "masuk" && $jam_masuk >= date('09:15:00') && $jam_masuk < date('09:30:00')) { ?>
+										<td class="yellow"><?php echo jam($data->waktu); ?></td><?php 
+									} elseif ($data->status == "masuk" && $jam_masuk >= date('09:30:00')) { ?>
+										<td class="red"><?php echo jam($data->waktu); ?></td><?php 
+									} else { ?>
+										<td><?php echo jam($data->waktu); ?></td><?php 
+									} 
+								} else { 
+									if ($data->status == "masuk" && $jam_masuk >= date('16:01:00') && $jam_masuk < date('16:15:00')) { ?>
+										<td class="green"><?php echo jam($data->waktu); ?></td><?php 
+									} elseif ($data->status == "masuk" && $jam_masuk >= date('16:15:00') && $jam_masuk < date('16:30:00')) { ?>
+										<td class="yellow"><?php echo jam($data->waktu); ?></td><?php 
+									} elseif($data->status == "masuk" && $jam_masuk >= date('16:30:00') && $jam_masuk < date('01:00:00')) { ?>
+										<td class="red"><?php echo jam($data->waktu); ?></td><?php
+									} else { ?>
+										<td><?php echo jam($data->waktu); ?></td><?php 
+									} 
 								} ?>
 							<td><?php echo $data->status; ?></td>
 						</tr>
-						<?php } }
-							else{ 
-								$getabsen = $absen->getAll_absen();
-								$no=1;
-								foreach($getabsen as $allabsen){
+						<?php }
+						} else { 
+							$getabsen = $absen->getAll_absen();
+							$no=1;
+							foreach ($getabsen as $allabsen) {
 						?>
 						<tr>
 							<td><?php echo $no++."."; ?></td>
@@ -179,14 +179,14 @@
 							<td><?php echo jam($allabsen->waktu); ?></td>
 							<td><?php echo $allabsen->status; ?></td>
 						</tr>
-						<?php } }?>
+						<?php } } ?>
 					  </tbody>
 					</table>
 				 
 					<form method="post" action="excel.php">
 					<div class="form-actions">
 						<?php 
-						if(isset($_POST['search'])){ 
+						if (isset($_POST['search'])) { 
 							$nama_karyawan = $_POST['nama_karyawan'];
 							$tgl_dari = explode("/", $_POST['dari']);
 							$dari = $tgl_dari[2]."-".$tgl_dari[0]."-".$tgl_dari[1];
@@ -201,7 +201,7 @@
 					</form>
 					<form method="post" action="pdf.php" class="pull-right" target="_blank">
 						<?php 
-						if(isset($_POST['search'])){ 
+						if (isset($_POST['search'])) { 
 							$nama_karyawan = $_POST['nama_karyawan'];
 							$tgl_dari = explode("/", $_POST['dari']);
 							$dari = $tgl_dari[2]."-".$tgl_dari[0]."-".$tgl_dari[1];

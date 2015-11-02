@@ -4,17 +4,17 @@
 	$user = new user();
 	$shift = new shift();
 	
-	if($user->loggedin() == "0"){ 
+	if ($user->loggedin() == "0") { 
 		header("Location = index.php");
 	} 
 	
-	if($_SESSION['id_jabatan'] != 1){
+	if ($_SESSION['id_jabatan'] != 1) {
 		header ("location: index.php");
 	}
 	
 	$employee_id = $_SESSION['id_karyawan'];
 	
-	if(isset($_POST['save'])){
+	if (isset($_POST['save'])) {
 		$shift_id = $_GET['id'];
 		$nama_shift = $_POST['nama_shift'];
 		$start_shift = $_POST['start_shift'];
@@ -27,7 +27,7 @@
 ?>
 
 	<body>
-			<!-- start: Header -->
+	<!-- start: Header -->
 		<div class="navbar">
 			<div class="navbar-inner">
 				<div class="container-fluid">
@@ -67,11 +67,11 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><?php if($_SESSION['id_jabatan'] == 1){ ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
+						<li><?php if ($_SESSION['id_jabatan'] == 1) { ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
 						<i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 						
 						<?php
-							if($_SESSION['id_jabatan'] == 1){
+							if ($_SESSION['id_jabatan'] == 1) {
 						?>
 						<li><a href="list_laporan.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 						<li><a href="list_karyawan.php"><i class="icon-user"></i><span class="hidden-tablet"> Karyawan</span></a></li>

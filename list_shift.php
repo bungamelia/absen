@@ -4,17 +4,17 @@
 	$user = new user();
 	$shift = new shift();
 	
-	if($user->loggedin() == "0"){ 
+	if ($user->loggedin() == "0") { 
 		header("Location = index.php");
 	} 
 	
-	if($_SESSION['id_jabatan'] != 1){
+	if ($_SESSION['id_jabatan'] != 1) {
 		header("Location = index.php");
 	}
 	
 	$employee_id = $_SESSION['id_karyawan'];
 	
-	if(isset($_GET['delete'])){
+	if (isset($_GET['delete'])) {
 		$id_shift = $_GET['delete'];
 		$shift->hapus_shift($id_shift);
 	}
@@ -59,11 +59,11 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><?php if($_SESSION['id_jabatan'] == 1){ ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
+						<li><?php if ($_SESSION['id_jabatan'] == 1) { ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
 						<i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 						<li><a href="list_laporan.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 						<?php
-							if($_SESSION['id_jabatan'] == 1){
+							if ($_SESSION['id_jabatan'] == 1) {
 						?>
 						<li><a href="list_karyawan.php"><i class="icon-user"></i><span class="hidden-tablet"> Karyawan</span></a></li>
 						<li><a href="report_absen.php"><i class="icon-check"></i><span class="hidden-tablet"> Absen</span></a></li>
@@ -86,7 +86,8 @@
 			</ul>
 			<?php 
 				$username = $_SESSION['username'];
-				$karyawan_id = $_SESSION['id_karyawan'];	?>
+				$karyawan_id = $_SESSION['id_karyawan'];	
+			?>
 			<div class="row-fluid sortable">		
 				<div class="box span8">
 					<div class="box-header" data-original-title>
@@ -107,7 +108,7 @@
 						  <tbody>
 							<?php
 								$row = $shift->tampil_shift();
-								foreach($row as $data){
+								foreach ($row as $data) {
 							?>
 							<tr>
 								<td><?php echo $data->nama_shift; ?></td>

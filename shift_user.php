@@ -4,7 +4,7 @@
 	$user = new user();
 	$shift = new shift();
 	
-	if($user->loggedin() == "0"){ 
+	if ($user->loggedin() == "0") { 
 		header("Location = index.php");
 	} 
 
@@ -50,16 +50,16 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><?php if($_SESSION['id_jabatan'] == 1){ ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
+						<li><?php if ($_SESSION['id_jabatan'] == 1) { ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
 						<i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 						<li><a href="laporan_user.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 						<li><a href="absen_user.php"><i class="icon-check"></i><span class="hidden-tablet"> Absen</span></a></li>
 						<?php
 							$user_shift = $shift->tampil_shiftline($_SESSION['id_karyawan']);
-							foreach($user_shift as $all_shiftline){
+							foreach ($user_shift as $all_shiftline 
 								$getUser = $all_shiftline->id_karyawan;				
 							}
-							if($getUser == $_SESSION['id_karyawan']){ 
+							if ($getUser == $_SESSION['id_karyawan']) { 
 						?>
 						<li><a href="shift_user.php"><i class="icon-time"></i><span class="hidden-tablet"> Jadwal Shift</span></a></li><?php } ?>
 					</ul>
@@ -96,17 +96,17 @@
 						  <tbody>
 						  <?php
 							$shiftl = $shift->tampil_shiftline($_SESSION['id_karyawan']);
-							foreach($shiftl as $line){
+							foreach ($shiftl as $line) {
 						  ?>
 							<tr>
 								<?php
 								$tgl_db = tgl_indo($line->tanggal_shift);
 								$hariini = tgl_indo(date('Y-m-d'));
 								
-								if($tgl_db == $hariini){ ?>
+								if ($tgl_db == $hariini) { ?>
 								<td class="yellow"><?php echo $line->nama_shift; ?></td>
 								<td class="yellow"><?php echo tgl_indo($line->tanggal_shift); ?></td>
-								<?php } else{ ?>
+								<?php } else { ?>
 								<td><?php echo $line->nama_shift; ?></td>
 								<td><?php echo tgl_indo($line->tanggal_shift); ?>
 							</tr><?php } } ?>

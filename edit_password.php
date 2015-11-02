@@ -4,7 +4,7 @@
 	$user = new user();
 	$karyawan = new karyawan();
 	
-	if($user->loggedin() == "0"){ 
+	if ($user->loggedin() == "0") { 
 		header("Location = index.php");
 	} 
 	
@@ -12,7 +12,7 @@
 	$karyawan_id = $_SESSION['id_karyawan'];	
 	$id_jabatan = $_SESSION['id_jabatan'];	
 	
-	if(isset($_POST['ganti'])){
+	if (isset($_POST['ganti'])) {
 		$karyawan_id = $_SESSION['id_karyawan'];
 		$id_jabatan = $_SESSION['id_jabatan'];
 		$new_pass = $_POST['new_pass'];
@@ -62,16 +62,16 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><?php if($_SESSION['id_jabatan'] == 1){ ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
+						<li><?php if ($_SESSION['id_jabatan'] == 1) { ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
 						<i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 						<?php
-							if($_SESSION['id_jabatan'] == 1){
+							if ($_SESSION['id_jabatan'] == 1) {
 						?>
 						<li><a href="list_laporan.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 						<li><a href="list_karyawan.php"><i class="icon-user"></i><span class="hidden-tablet"> Karyawan</span></a></li>
 						<li><a href="report_absen.php"><i class="icon-check"></i><span class="hidden-tablet"> Absen</span></a></li>
 						<li><a href="list_shift.php"><i class="icon-time"></i><span class="hidden-tablet"> Shift</span></a></li>
-						<?php }?>
+						<?php } ?>
 					</ul>
 				</div>
 			</div>

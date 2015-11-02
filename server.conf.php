@@ -24,7 +24,8 @@ $addons 		=	$root.$ds."addons";
 $system_addons	=	$addons.$ds."system"; 
 $table_class    =   "table table-bordered table-condensed table-striped table-hover";
 
-function core($class) {
+function core($class)
+{
 	global $ds;
 	global $system;
     $core 	=  $system . $ds . "class_" . $class . '.php';
@@ -37,17 +38,20 @@ function core($class) {
 
 spl_autoload_register('core');
 
-function limit_words($string, $word_limit){
+function limit_words($string, $word_limit)
+{
     $words = explode(" ",$string);
     return implode(" ",array_splice($words,0,$word_limit));
 }
 
-function tgl_indo($tgl){
+function tgl_indo($tgl)
+{
 	$tanggal   = substr($tgl,8,2);
 	$bulan     = getBulan(substr($tgl,5,2));
 	$tahun     = substr($tgl,0,4);
 	return $tanggal.' '.$bulan.' '.$tahun;
 }
+
 function jam($date)
 {
     $date =  date_create($date);
@@ -104,7 +108,8 @@ function potoabsen($date)
     $date =  date_create($date);
     return date_format($date,"d-m-Y");
 } 
-function getBulan($bln){ 
+function getBulan($bln)
+{ 
 	switch ($bln){ 
 		case 1: 
 			return "Januari"; 
@@ -145,13 +150,12 @@ function getBulan($bln){
 	}
 }
 
-
 function makeDir($path)
 {
-        if(!file_exists($path)):
-         $ret = mkdir($path,0777, true); // use @mkdir if you want to suppress warnings/errors      
-         return $ret === true || is_dir($path);
-        endif;
+	if (!file_exists($path)) {
+		$ret = mkdir($path,0777, true); // use @mkdir if you want to suppress warnings/errors      
+		return $ret === true || is_dir($path);
+	}
 }
 
 function create_hash($password)
@@ -172,7 +176,7 @@ function create_hash($password)
 function validate_password($password, $correct_hash)
 {
     $params = explode(":", $correct_hash);
-    if(count($params) < HASH_SECTIONS)
+    if (count($params) < HASH_SECTIONS)
        return false; 
     $pbkdf2 = base64_decode($params[HASH_PBKDF2_INDEX]);
     return slow_equals(
@@ -192,8 +196,7 @@ function validate_password($password, $correct_hash)
 function slow_equals($a, $b)
 {
     $diff = strlen($a) ^ strlen($b);
-    for($i = 0; $i < strlen($a) && $i < strlen($b); $i++)
-    {
+    for($i = 0; $i < strlen($a) && $i < strlen($b); $i++) {
         $diff |= ord($a[$i]) ^ ord($b[$i]);
     }
     return $diff === 0; 
@@ -203,9 +206,9 @@ function slow_equals($a, $b)
 function pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output = false)
 {
     $algorithm = strtolower($algorithm);
-    if(!in_array($algorithm, hash_algos(), true))
+    if (!in_array($algorithm, hash_algos(), true))
         trigger_error('PBKDF2 ERROR: Invalid hash algorithm.', E_USER_ERROR);
-    if($count <= 0 || $key_length <= 0)
+    if ($count <= 0 || $key_length <= 0)
         trigger_error('PBKDF2 ERROR: Invalid parameters.', E_USER_ERROR);
 
     if (function_exists("hash_pbkdf2")) {
@@ -220,7 +223,7 @@ function pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output =
     $block_count = ceil($key_length / $hash_length);
 
     $output = "";
-    for($i = 1; $i <= $block_count; $i++) {
+    for ($i = 1; $i <= $block_count; $i++) {
         // $i encoded as 4 bytes, big endian.
         $last = $salt . pack("N", $i);
         // first iteration
@@ -232,7 +235,7 @@ function pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output =
         $output .= $xorsum;
     }
 
-    if($raw_output)
+    if (raw_output)
         return substr($output, 0, $key_length);
     else
         return bin2hex(substr($output, 0, $key_length));
@@ -240,8 +243,9 @@ function pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output =
 
 function umur($lahir)
 {
-$date = new DateTime($lahir);
-$now = new DateTime();
-$interval = $now->diff($date);
-return $interval->y;
+	$date = new DateTime($lahir);
+	$now = new DateTime();
+	$interval = $now->diff($date);
+	return $interval->y;
 }
+?>
