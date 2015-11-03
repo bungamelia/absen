@@ -93,7 +93,7 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><?php if ($_SESSION['id_jabatan'] == 1) { ?><a href="admin.php"><?php } else { ?><a href="user.php"><?= } ?>
+						<li><?php if ($_SESSION['id_jabatan'] == 1) { ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
 						<i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>	
 						<li><a href="laporan_user.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 						<li><a href="absen_user.php"><i class="icon-user"></i><span class="hidden-tablet"> Absen</span></a></li>
@@ -127,7 +127,7 @@
 			<div class="row-fluid sortable">
 				<div class="box span4">
 					<div class="box-header">
-						<h2><i class="icon-home"></i><span class="break"></span>Selamat datang, <?= echo $username; ?> </h2>
+						<h2><i class="icon-home"></i><span class="break"></span>Selamat datang, <?php echo $username; ?> </h2>
 					</div>
 					<div class="box-content">
 						<div class="row-fluid">

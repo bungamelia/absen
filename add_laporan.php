@@ -64,13 +64,13 @@
 						<ul class="nav pull-right">
 							<li class="dropdown">
 								<a class="btn dropdown-toggle" data-toggle="dropdown">
-									<i class="halflings-icon white user"></i><?= echo $_SESSION['username']; ?><span class="caret"></span>
+									<i class="halflings-icon white user"></i><?php echo $_SESSION['username']; ?><span class="caret"></span>
 								</a>
 								<ul class="dropdown-menu">
 									<li class="dropdown-menu-title">
 										<span>Account Settings</span>
 									</li>
-									<li><a href="detail_karyawan.php?id=<?= echo $employee_id; ?>"><i class="halflings-icon user"></i>Profile</a></li>
+									<li><a href="detail_karyawan.php?id=<?php echo $employee_id; ?>"><i class="halflings-icon user"></i>Profile</a></li>
 									<li><a href="logout.php"><i class="halflings-icon off"></i> Logout</a></li>
 								</ul>
 							</li>
@@ -88,7 +88,7 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><?php if ($_SESSION['id_jabatan'] == 1) { ?><a href="admin.php"><?php } else { ?><a href="user.php"><?= } ?>
+						<li><?php if ($_SESSION['id_jabatan'] == 1) { ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
 						<i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>	
 						<?php
 							if ($_SESSION['id_jabatan'] == 1) {
@@ -97,7 +97,7 @@
 						<li><a href="list_karyawan.php"><i class="icon-user"></i><span class="hidden-tablet"> Karyawan</span></a></li>
 						<li><a href="report_absen.php"><i class="icon-check"></i><span class="hidden-tablet"> Absen</span></a></li>
 						<li><a href="list_shift.php"><i class="icon-time"></i><span class="hidden-tablet"> Shift</span></a></li>
-						<?php } else{ ?>
+						<?php } else { ?>
 						<li><a href="laporan_user.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 						<li><a href="absen_user.php"><i class="icon-check"></i><span class="hidden-tablet"> Absen</span></a></li>
 						<?php
@@ -136,9 +136,9 @@
 					<div class="box-content">
 						<form class="form-horizontal" method="POST">
 						  <fieldset>
-							<input type="hidden" name="waktu" value="<?= echo date('Y-m-d H:i:s');?>">
-							<input type="hidden" name="id_karyawan" value="<?= echo $id_karyawan;?>">
-							<input type="hidden" name="id_jabatan" value="<?= echo $id_jabatan;?>">
+							<input type="hidden" name="waktu" value="<?php echo date('Y-m-d H:i:s');?>">
+							<input type="hidden" name="id_karyawan" value="<?php echo $id_karyawan;?>">
+							<input type="hidden" name="id_jabatan" value="<?php echo $id_jabatan;?>">
 							<div class="control-group">
 							  <label class="control-label" for="typeahead">Subject</label>
 							  <div class="controls">

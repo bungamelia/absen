@@ -203,8 +203,8 @@
 									$row = $karyawan->getID_jk();
 									foreach ($row as $data) {
 								  ?>
-									<option name="jenis_kelamin" value="<?= echo $data->id_jenis_kelamin; ?>" ><?= echo $data->jenis_kelamin; ?></option>
-									<?= } ?>
+									<option name="jenis_kelamin" value="<?php echo $data->id_jenis_kelamin; ?>" ><?php echo $data->jenis_kelamin; ?></option>
+									<?php } ?>
 								  </select>
 								</div>
 							</div>

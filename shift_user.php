@@ -56,7 +56,7 @@
 						<li><a href="absen_user.php"><i class="icon-check"></i><span class="hidden-tablet"> Absen</span></a></li>
 						<?php
 							$user_shift = $shift->tampil_shiftline($_SESSION['id_karyawan']);
-							foreach ($user_shift as $all_shiftline 
+							foreach ($user_shift as $all_shiftline) {
 								$getUser = $all_shiftline->id_karyawan;				
 							}
 							if ($getUser == $_SESSION['id_karyawan']) { 

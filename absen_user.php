@@ -54,7 +54,7 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><?php if ($_SESSION['id_jabatan'] == 1) { ?><a href="admin.php"><?php } else { ?><a href="user.php"><?= } ?>
+						<li><?php if ($_SESSION['id_jabatan'] == 1) { ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
 						<i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 						<li><a href="laporan_user.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 						<li><a href="absen_user.php"><i class="icon-user"></i><span class="hidden-tablet"> Absen</span></a></li>
@@ -65,7 +65,7 @@
 							}
 							if ($getUser == $_SESSION['id_karyawan']) { 
 						?>
-							<li><a href="shift_user.php"><i class="icon-time"></i><span class="hidden-tablet"> Jadwal Shift</span></a></li><?= } ?>
+							<li><a href="shift_user.php"><i class="icon-time"></i><span class="hidden-tablet"> Jadwal Shift</span></a></li><?php } ?>
 						<?php
 							if ($_SESSION['id_jabatan'] == 1) {
 						?>
@@ -73,7 +73,7 @@
 						<li><a href="list_laporan.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 						<li><a href="report_absen.php"><i class="icon-check"></i><span class="hidden-tablet"> Absen</span></a></li>
 						<li><a href="list_shift.php"><i class="icon-time"></i><span class="hidden-tablet"> Shift</span></a></li>
-						<?= } ?>
+						<?php } ?>
 					</ul>
 				</div>
 			</div>
