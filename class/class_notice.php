@@ -16,7 +16,6 @@ class notice
 		$this->obj->execute();
 		$data = $this->obj->resultset();
 		return $data;
-		
 	}
 	
 	public function show_notice($id_karyawan)
@@ -28,15 +27,12 @@ class notice
 		$this->obj->execute();
 		$data = $this->obj->resultset();
 		return $data;
-		
 	}
 	
 	public function add_notice($nama_karyawan, $isi, $tanggal)
 	{
-		try
-		{
-			$query = "INSERT INTO notice(id_karyawan, isi, tanggal) VALUES 
-					(:nama_karyawan, :isi, :tanggal)";
+		try {
+			$query = "INSERT INTO notice(id_karyawan, isi, tanggal) VALUES (:nama_karyawan, :isi, :tanggal)";
 			
 			$this->obj->query($query);
 			$this->obj->bind(':nama_karyawan',$nama_karyawan);
@@ -45,9 +41,7 @@ class notice
 			$this->obj->execute();
 		
 			header ("location: admin.php");
-		}
-		catch(PDOException $e)
-		{
+		} catch(PDOException $e) {
 			echo $e->getMessage();
 		}    
 	}

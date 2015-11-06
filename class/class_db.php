@@ -20,13 +20,10 @@ class db
 			PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
 		);
 		// Create a new PDO instanace
-		try
-		{
+		try {
 			$this->db = new PDO($dsn, $this->user, $this->pass, $options);
-		}
 		// Catch any errors
-		catch(PDOException $e)
-		{
+		} catch(PDOException $e) {
 			$this->error = $e->getMessage();
 		}
 	}
@@ -38,10 +35,8 @@ class db
 	
 	public function bind($param, $value, $type = null)
 	{
-		if (is_null($type)) 
-		{
-			switch (true) 
-			{
+		if (is_null($type)) {
+			switch (true) {
 				case is_int($value):
 					$type = PDO::PARAM_INT;
 					break;

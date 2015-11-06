@@ -1,4 +1,11 @@
 <?php
+/**
+ *
+ *
+ *
+ *
+ *
+ */
 	
 class absen
 {
@@ -10,8 +17,7 @@ class absen
 	
 	public function add_absen($id_karyawan, $id_shift, $waktu, $status)
 	{
-		try
-		{
+		try {
 			$query = "INSERT INTO absen(id_karyawan, id_shift, waktu, status) VALUES (:id_karyawan, :id_shift, :waktu, :status)";
 			
 			$this->obj->query($query);
@@ -20,10 +26,7 @@ class absen
 			$this->obj->bind(':waktu',$waktu);
 			$this->obj->bind(':status',$status);
 			$this->obj->execute();
-
-		}
-		catch(PDOException $e)
-		{
+		} catch(PDOException $e) {
 			echo $e->getMessage();
 		} 
 	}
@@ -96,17 +99,14 @@ class absen
 
 	function edit_absen($absen_id, $id_karyawan, $waktu, $status)
 	{
-		try
-		{
+		try {
 			$query = "UPDATE absen SET waktu=:waktu, status=:status WHERE id_absen=:absen_id";
 			$this->obj->query($query);
 			$this->obj->bind(":waktu",$waktu);
 			$this->obj->bind(":status",$status);
 			$this->obj->bind(":absen_id",$absen_id);
 			$this->obj->execute();
-		}
-		catch(PDOException $e)
-		{
+		} catch(PDOException $e) {
 			echo $e->getMessage(); 
 		}
 	}

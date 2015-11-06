@@ -79,7 +79,8 @@
 			</ul>
 			<?php 
 				$username = $_SESSION['username'];
-				$karyawan_id = $_SESSION['id_karyawan'];	?>
+				$karyawan_id = $_SESSION['id_karyawan'];	
+			?>
 			<div class="row-fluid sortable">		
 				<div class="box span4">
 					<div class="box-header" data-original-title>

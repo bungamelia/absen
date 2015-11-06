@@ -10,18 +10,15 @@ class shift
 	
 	public function add_shift($nama_shift, $start_shift, $end_shift)
 	{
-		try
-		{
-			$query = "INSERT INTO absen(nama_shift, start_shift, end_shift) VALUES (:nama_shift, :start_shift, :end_shift)";
+		try {
+			$query = "INSERT INTO shift(nama_shift, start_shift, end_shift) VALUES (:nama_shift, :start_shift, :end_shift)";
 			
 			$this->obj->query($query);
 			$this->obj->bind(':nama_shift',$nama_shift);
 			$this->obj->bind(':start_shift',$start_shift);
 			$this->obj->bind(':end_shift',$end_shift);
 			$this->obj->execute();
-		}
-		catch(PDOException $e)
-		{
+		} catch(PDOException $e) {
 			echo $e->getMessage();
 		}    
 	}
@@ -47,8 +44,7 @@ class shift
 
 	function edit_shift($shift_id, $nama_shift, $start_shift, $end_shift)
 	{
-		try
-		{
+		try {
 			$query = "UPDATE shift SET nama_shift=:nama_shift, start_shift=:start_shift, end_shift=:end_shift WHERE id_shift=:shift_id";
 			$this->obj->query($query);
 			$this->obj->bind(":nama_shift",$nama_shift);
@@ -56,21 +52,34 @@ class shift
 			$this->obj->bind(":end_shift",$end_shift);
 			$this->obj->bind(":shift_id",$shift_id);
 			$this->obj->execute();
-		}
-		catch(PDOException $e)
-		{
+		} catch(PDOException $e) {
 			echo $e->getMessage(); 
 		}
 	}
 	
 	public function hapus_shift($id_shift)
 	{
-		$query = "DELETE FROM shift WHERE id_karyawan=:id_shift";
+		$query = "DELETE FROM shift WHERE id_shift=:id_shift";
 		$this->obj->query($query);
 		$this->obj->bind(":id_shift",$id_shift);
 		$this->obj->execute();
 		
 		header("Location: list_shift.php"); 
+	}
+	
+	public function addShiftline($id_shift, $id_karyawan, $tanggal_shift)
+	{
+		try {
+			$query = "INSERT INTO shift_line(id_shift, id_karyawan, tanggal_shift) VALUES (:id_shift, :id_karyawan, :tanggal_shift)";
+			
+			$this->obj->query($query);
+			$this->obj->bind(':id_shift',$id_shift);
+			$this->obj->bind(':id_karyawan',$id_karyawan);
+			$this->obj->bind(':tanggal_shift',$tanggal_shift);
+			$this->obj->execute();
+		} catch(PDOException $e) {
+			echo $e->getMessage();
+		}    
 	}
 	
 	public function tampil_shiftline($id_karyawan)
@@ -97,7 +106,7 @@ class shift
 			
 	public function getAll_shiftline()
 	{
-		$query = "SELECT * FROM shift_line";
+		$query = "SELECT * FROM shift_line sl, karyawan k, shift s WHERE sl.id_karyawan = k.id_karyawan AND sl.id_shift = s.id_shift ORDER BY id_shiftline";
 		$this->obj->query($query);
 		$this->obj->execute();
 		$data = $this->obj->resultset();

@@ -16,28 +16,21 @@ class user
 		$this->obj->execute();
 		$count = $this->obj->rowCount();
 		
-		if($count > 0)
-		{
+		if ($count > 0) {
 			$data_user = $this->obj->single();
-			if($passwd == $data_user->password)
-			{
+			if ($passwd == $data_user->password) {
 				$_SESSION['user_session'] = 1;
 				$_SESSION['username'] = $username;
 				$_SESSION['id_karyawan'] = $data_user->id_karyawan;
 				$_SESSION['id_jabatan'] = $data_user->id_jabatan;
 				$_SESSION['pass'] = $data_user->password;
 				
-				if($data_user->id_jabatan == 1)
-				{
+				if ($data_user->id_jabatan == 1) {
 					header ("location: admin.php");
-				}
-				else
-				{
+				} else {
 					header ("location: user.php");
 				}
-			}
-			else
-			{
+			} else {
 				return false;
 			}
 		}
@@ -54,12 +47,9 @@ class user
 	
 	public function loggedin()
 	{
-		if(empty($_SESSION['user_session']))
-		{
+		if (empty($_SESSION['user_session'])) {
 			return 0;
-		}
-		else
-		{
+		} else {
 			return 1;
 		}
 	}

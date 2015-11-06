@@ -15,12 +15,23 @@
 	
 	$employee_id = $_SESSION['id_karyawan'];
 	
-	if (isset($_POST['save_shift'])) {
-		$nama_shift = $_POST['nama_shift'];
-		$start_shift = $_POST['start_shift'];
-		$end_shift = $_POST['end_shift'];
+	if (isset($_POST['save'])) {
+		$id_shift = $_POST['id_shift'];
+		$id_karyawan = $_POST['nama_karyawan'];
+		$from = $_POST['dari'];
+		$to = $_POST['sampai'];
 		
-		$shift->add_shift($nama_shift, $start_shift, $end_shift);
+		$startTime = strtotime($from); 
+		$endTime = strtotime($to);
+		
+		
+		for ($time = $startTime; $time <= $endTime; $time = strtotime('+1 day', $time)) { 
+			$thisDate = date('Y-m-d', $time); 
+			$_POST['tanggal_shift'] = $thisDate; 
+			$tanggal_shift = $_POST['tanggal_shift'];
+			//echo"<pre>"; print_r($_POST); echo"</pre>";
+			$shift->addShiftline($id_shift, $id_karyawan, $tanggal_shift);
+		}
 	}
 	
 	if (isset($_GET['delete'])) {
@@ -101,77 +112,94 @@
 			<div class="row-fluid sortable">		
 				<div class="box span8">
 					<div class="box-header" data-original-title>
-						<h2><i class="halflings-icon user"></i><span class="break"></span>Shift</h2>
+						<h2><i class="halflings-icon user"></i><span class="break"></span>Jadwal Shift</h2>
 					</div>
 					<div class="box-content">
 						<table class="table table-striped table-bordered bootstrap-datatable datatable">
 						  <thead>
 							  <tr>
-								  <th>Nama Shift</th>
-								  <th>Start Shift</th>
-								  <th>End Shift</th>
-								  <th>Actions</th>
+								<th>No.</th>	
+								<th>Nama Karyawan</th>
+								<th>Shift ke-</th>
+								<th>Tanggal</th>
 							  </tr>
 						  </thead>   
 						  <tbody>
 							<?php
-								$row = $shift->tampil_shift();
+								$no = "1";
+								$row = $shift->getAll_shiftline();
 								foreach ($row as $data) {
 							?>
 							<tr>
-								<td><?php echo $data->nama_shift; ?></td>
-								<td class="center"><?php echo $data->start_shift; ?></td>
-								<td class="center"><?php echo $data->end_shift; ?></td>
-								<td class="center">
-									<a class="btn btn-info" href="edit_shift.php?id=<?php echo $data->id_shift; ?>">
-										<i class="halflings-icon white edit"></i>
-									</a>
-									<a class="btn btn-danger" href="list_shift.php?delete=<?php echo $data->id_shift; ?>" onclick="return confirm('Are you sure?')">
-										<i class="halflings-icon white trash"></i> 
-									</a>
-								</td>
+								<td><?php echo $no++; ?></td>
+								<td><?php echo $data->nama_karyawan; ?></td>
+								<td class="center"><?php echo $data->nama_shift; ?></td>
+								<td class="center"><?php echo $data->tanggal_shift; ?></td>
 							</tr>
 							<?php } ?>
 						  </tbody>
 						</table>
 						<form>
 							<div class="form-actions">
-								<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="myBtn">
+								<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalAdd" id="addBtn">
 									<i class="halflings-icon plus"></i> Tambah Shift
 								</button>
 							</div>
 						</form>
-						<div class="modal fade" id="myModal" role="dialog" data-backdrop="false">
+						
+						<div class="modal fade" id="modalAdd" role="dialog" data-backdrop="false">
 						  <div class="modal-dialog">
 							<div class="modal-content">
 							  <div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								<h4 class="modal-title" id="myModalLabel">Tambah Shift</h4>
+								<h4 class="modal-title" id="myModalLabel">Tambah Shift Karyawan</h4>
 							  </div>
 							  <form class="form-horizontal" method="POST">
 								<fieldset>
 								  <div class="modal-body">
 									<div class="control-group">
-									  <label class="control-label" for="typeahead">Nama Shift</label>
-										<div class="controls">
-											<input type="text" name="nama_shift">
+									  <label class="control-label" for="typeahead">Dari</label>
+										<div class="controls" id="datepicker">
+											<input type="text" class="input datepicker" name="dari" required="required">
 										</div>
 									</div>
 									<div class="control-group">
-									  <label class="control-label" for="typeahead">Start Shift</label>
+									  <label class="control-label" for="typeahead">Sampai</label>
 										<div class="controls">
-											<input type="text" name="start_shift" placeholder="hh:mm:ss">
+											<input type="text" class="input datepicker" name="sampai" required="required">
 										</div>
 									</div>
 									<div class="control-group">
-									  <label class="control-label" for="typeahead">End Shift</label>
+									  <label class="control-label" for="typeahead">Nama Karyawan</label>
 									  <div class="controls">
-										<input type="text" name="end_shift" placeholder="hh:mm:ss">
+										<select id="nama_karyawan" name="nama_karyawan">
+											<option selected="selected"></option>
+											<?php
+												$baris = $karyawan->tampil_karyawan();
+												foreach ($baris as $krywn) {
+											?>
+											<option value="<?php echo $krywn->id_karyawan; ?>"><?php echo $krywn->nama_karyawan; ?></option>
+											<?php } ?>
+										</select>
+									  </div>
+									</div>
+									<div class="control-group">
+									  <label class="control-label" for="typeahead">Shift ke-</label>
+									  <div class="controls">
+										<select id="id_shift" name="id_shift">
+											<option selected="selected"></option>
+											<?php
+												$show = $shift->tampil_shift();
+												foreach ($show as $showID) {
+											?>
+											<option value="<?php echo $showID->id_shift; ?>"><?php echo $showID->nama_shift; ?></option>
+											<?php } ?>
+										</select>
 									  </div>
 									</div>
 								  </div>
 								  <div class="modal-footer">
-									<input type="submit" class="btn btn-primary" value="Simpan" name="save_shift">
+									<input type="submit" class="btn btn-primary" value="Simpan" name="save">
 								  </div>
 								</fieldset>
 							  </form> 
@@ -181,9 +209,9 @@
 						
 						<script language="JavaScript">
 							$(document).ready(function(){
-								$("#myBtn").click(function(){
-									$("#myModal").modal("show");
-									$("#myModal").css("z-index", "1500");
+								$("#addBtn").click(function(){
+									$("#modalAdd").modal("show");
+									$("#modalAdd").css("z-index", "1500");
 								});
 							});
 						</script>

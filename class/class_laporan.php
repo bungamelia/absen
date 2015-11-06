@@ -9,8 +9,7 @@ class laporan
 	
 	public function add_laporan($id_karyawan, $id_jabatan, $create_date, $modify_date, $subject, $laporan, $state)
 	{
-		try
-		{
+		try {
 			$query = "INSERT INTO laporan(id_karyawan, id_jabatan, create_date, modify_date, subject, content, state) VALUES 
 					(:id_karyawan, :id_jabatan, :create_date, :modify_date, :subject, :laporan, :state)";
 			
@@ -23,9 +22,7 @@ class laporan
 			$this->obj->bind(':laporan',$laporan);
 			$this->obj->bind(':state',$state);
 			$this->obj->execute();
-		}
-		catch(PDOException $e)
-		{
+		} catch(PDOException $e) {
 			echo $e->getMessage();
 		}    
 	}
@@ -85,8 +82,7 @@ class laporan
 	
 	function edit_laporan($id_karyawan, $id_jabatan, $report_id, $modify_date, $laporan, $state)
 	{
-		try
-		{
+		try {
 			$query = "UPDATE laporan SET modify_date=:modify_date, content=:laporan, state=:state WHERE id_laporan=:report_id";
 			$this->obj->query($query);
 			$this->obj->bind(":modify_date",$modify_date);
@@ -94,9 +90,7 @@ class laporan
 			$this->obj->bind(":state",$state);
 			$this->obj->bind(":report_id",$report_id);
 			$this->obj->execute();
-		}
-		catch(PDOException $e)
-		{
+		} catch(PDOException $e) {
 			echo $e->getMessage(); 
 		}
 	}

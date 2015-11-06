@@ -90,7 +90,7 @@
 				<li><a href="absen_user.php">Absen</a></li>
 			</ul>
 			<div class="row-fluid sortable">		
-				<div class="box span10">
+				<div class="box span12">
 					<div class="box-header" data-original-title>
 						<h2><i class="halflings-icon user"></i><span class="break"></span>Absen</h2>
 					</div>
@@ -102,6 +102,8 @@
 								  <th>Tanggal</th>
 								  <th>Jam</th>
 								  <th>Status</th>
+								  <th>Keterlambatan</th>
+								  <th>Foto</th>
 							  </tr>
 						  </thead>   
 						  <tbody>
@@ -147,6 +149,44 @@
 										} 
 									} ?>
 								<td><?php echo $data->status; ?></td>
+								<td></td>
+								<td>
+								<?php if ($data->status == "masuk"){
+									$tgl = explode(" ", $data->waktu);
+									$tgl1 = explode("-", $tgl[0]); ?>
+									
+									<!-- Button trigger modal -->
+									<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" id="myBtn">
+									 <i class="halflings-icon white zoom-in"></i>
+									</button>
+
+									<!-- Modal -->
+									<div class="modal fade" id="myModal" role="dialog" data-backdrop="false">
+									  <div class="modal-dialog">
+										<div class="modal-content">
+										  <div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+											<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+										  </div>
+										  <div class="modal-body">
+											<img src=uploads/<?php echo $karyawan_id . "/" . $tgl1[0]. "/"  .$tgl1[1] . "/" . $tgl1[2] . "/" . $karyawan_id ."-". $tgl1[2] ."-". $tgl1[1] ."-". $tgl1[0] .".jpeg" ?>>
+										  </div>
+										  <div class="modal-footer">
+											<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+										  </div>
+										</div>
+									  </div>
+									</div>
+									
+									<script language="JavaScript">
+										$(document).ready(function(){
+											$("#myBtn").click(function(){
+												$("#myModal").modal("show");
+												$("#myModal").css("z-index", "1500");
+											});
+										});
+									</script>
+								<?php } ?></td>
 							</tr><?php } ?>
 						  </tbody>
 					  </table>            

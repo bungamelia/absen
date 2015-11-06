@@ -34,11 +34,9 @@ class karyawan
 		$this->obj->execute();
 		$count = $this->obj->rowCount();
 		
-		if($count > 0)
-		{
+		if($count > 0){
 			$data_uname = $this->obj->single();
-			if(!empty($data_uname->username))
-			{
+			if(!empty($data_uname->username)){
 				echo 'Username provided is already in use.';
 			}
 		}
@@ -52,11 +50,9 @@ class karyawan
 		$this->obj->execute();
 		$count = $this->obj->rowCount();
 		
-		if($count > 0)
-		{
+		if ($count > 0) {
 			$data_email = $this->obj->single();
-			if(!empty($data_email->email))
-			{
+			if (!empty($data_email->email)) {
 				echo 'Email provided is already in use.';
 			}
 		}
@@ -64,8 +60,7 @@ class karyawan
 	
 	public function add_karyawan($userkaryawan, $nama_karyawan, $jabatan, $ttl, $alamat, $jenis_kelamin, $email, $password)
 	{
-		try
-		{
+		try {
 			$query = "INSERT INTO karyawan(username, nama_karyawan, id_jabatan, ttl, alamat, id_jenis_kelamin, email, password) VALUES 
 					(:userkaryawan, :nama_karyawan, :jabatan, :ttl, :alamat, :jenis_kelamin, :email, :password)";
 			
@@ -81,9 +76,7 @@ class karyawan
 			$this->obj->execute();
 		
 			header ("location: list_karyawan.php");
-		}
-		catch(PDOException $e)
-		{
+		} catch(PDOException $e) {
 			echo $e->getMessage();
 		}    
 	}
@@ -128,8 +121,7 @@ class karyawan
 	
 	function edit_karyawan($karyawan_id, $id_jabatan, $nama_karyawan, $alamat, $email, $ttl, $final_file)
 	{
-		try
-		{
+		try {
 			$query = "UPDATE karyawan SET nama_karyawan=:nama_karyawan, alamat=:alamat, email=:email, ttl=:ttl, foto=:final_file 
 			WHERE id_karyawan=:karyawan_id";
 			$this->obj->query($query);
@@ -142,17 +134,14 @@ class karyawan
 			$this->obj->execute();
 			
 			header ("Location: detail_karyawan.php?id=$karyawan_id");
-		}
-		catch(PDOException $e)
-		{
+		} catch(PDOException $e) {
 			echo $e->getMessage(); 
 		}
 	}
 		
 	function edit_password($karyawan_id, $id_jabatan, $new_pass)
 	{
-		try
-		{
+		try {
 			$query = "UPDATE karyawan SET password=:new_pass WHERE id_karyawan=:karyawan_id";
 			$this->obj->query($query);
 			$this->obj->bind(":new_pass",$new_pass);
@@ -160,9 +149,7 @@ class karyawan
 			$this->obj->execute();
 			
 			header ("Location: detail_karyawan.php?id=$karyawan_id");
-		}
-		catch(PDOException $e)
-		{
+		} catch(PDOException $e) {
 			echo $e->getMessage(); 
 		}
 	}

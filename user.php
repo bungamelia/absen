@@ -39,7 +39,7 @@
 	}
 	
 	if (isset($_POST['keluar'])) {
-		$data_a = $absen->getID_absen($id_karyawan);
+		$data_a = $absen->getID_absen($_SESSION['id_karyawan']);
 		
 		$id_karyawan = $_SESSION['id_karyawan'];
 		$waktu = $_POST['waktu'];
@@ -47,8 +47,8 @@
 		$id_shift = $data_a->id_shift;
 		
 		$absen->add_absen($id_karyawan, $id_shift, $waktu, $status);
-		
-		header ("Location: user.php");
+		print_r($data_a);
+		//header ("Location: user.php");
 	}
 ?>
 
@@ -131,8 +131,7 @@
 					</div>
 					<div class="box-content">
 						<div class="row-fluid">
-							<div class="masonry-gallery">
-								<form method="POST">
+							<form method="POST">
 								<div id="image-1" class="masonry-thumb">
 									<div id="results">
 									<?php
@@ -154,44 +153,44 @@
 										} else { ?>
 											<img class="grayscale" src="http://www.gamesindustry.biz/img/base/default-user.png" alt="Sample Image 1"></a><?php } ?>
 									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row-fluid">     
-						 <?php
-							$data = $absen->getID_absen($id_karyawan);
-							$tgl_db = tgl_indo($data->waktu);
-							if ($data->status == "keluar") {
-						 ?>
-							<div class="span12">
-								<p>Absen keluar terakhir: <?php echo "<br>".$tgl_db." - ".jam($data->waktu); ?></p>
-							</div><?php } else { ?>
-							<div class="span12">
-								<p>Absen masuk terakhir: <?php echo "<br>".$tgl_db." - ".jam($data->waktu); ?></p>
-							</div><?php } ?>
-						</div><!--/row -->  
-						<div class="form-actions">
-						  <input type="hidden" name="waktu" value="<?php echo date('Y-m-d H:i:s');?>">
-						 <?php
-							$hariini = tgl_indo(date('Y-m-d'));
-							$date_add = date('Y-m-d H:i:s',strtotime('+18 hours',strtotime($data->waktu)));
-							
-							if ($data->status == "keluar") { ?>
-								<input type="submit" class="btn btn-primary" name="masuk" value="Absen Masuk">
-							<?php 
-							} elseif ($data->status == "masuk" && $tgl_db != $hariini) {
-								$id_karyawan = $_SESSION['id_karyawan'];
-								$waktu = $date_add;
-								$status = "keluar";
-								$id_shift = $data->id_shift;
 								
-								$absen->add_absen($id_karyawan, $id_shift, $waktu, $status);	?>
-								<input type="submit" class="btn btn-primary" name="masuk" value="Absen Masuk">
-							<?php 
-							} elseif($data->status == "masuk" && $tgl_db == $hariini) { ?>
-								<input type="submit" class="btn btn-primary" name="keluar" value="Absen Keluar"><?php } ?>
-						  <a class="btn btn-primary" href="add_laporan.php" >Laporan</a></form>
-						</div>
+								
+								<?php
+									$data = $absen->getID_absen($id_karyawan);
+									$tgl_db = tgl_indo($data->waktu);
+									if ($data->status == "keluar") {
+								?>
+									<div class="span12">
+										<p>Absen keluar terakhir: <?php echo "<br>".$tgl_db." - ".jam($data->waktu); ?></p>
+									</div><?php } else { ?>
+									<div class="span12">
+										<p>Absen masuk terakhir: <?php echo "<br>".$tgl_db." - ".jam($data->waktu); ?></p>
+									</div><?php } ?>
+								</div>
+								<div class="form-actions">
+								  <input type="hidden" name="waktu" value="<?php echo date('Y-m-d H:i:s');?>">
+								 <?php
+									$hariini = tgl_indo(date('Y-m-d'));
+									$date_add = date('Y-m-d H:i:s',strtotime('+18 hours',strtotime($data->waktu)));
+									
+									if ($data->status == "keluar") { ?>
+										<input type="submit" class="btn btn-primary" name="masuk" value="Absen Masuk">
+									<?php 
+									} elseif ($data->status == "masuk" && $tgl_db != $hariini) {
+										$id_karyawan = $_SESSION['id_karyawan'];
+										$waktu = $date_add;
+										$status = "keluar";
+										$id_shift = $data->id_shift;
+										
+										$absen->add_absen($id_karyawan, $id_shift, $waktu, $status);	?>
+										<input type="submit" class="btn btn-primary" name="masuk" value="Absen Masuk">
+									<?php 
+									} elseif ($data->status == "masuk" && $tgl_db == $hariini) { ?>
+										<input type="submit" class="btn btn-primary" name="keluar" value="Absen Keluar"><?php } ?>
+								  <a class="btn btn-primary" href="add_laporan.php" >Laporan</a>
+								</div>
+							</form>
+						</div><!--/row -->  
 					</div>
 				</div><!--/span-->
 				

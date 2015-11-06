@@ -3,6 +3,7 @@
 	include_once 'bootstrap/header.php';
 	$user = new user();
 	$karyawan = new karyawan();
+	$shift = new shift();
 	
 	if ($user->loggedin() == "0") { 
 		header("Location = index.php");
