@@ -70,7 +70,7 @@ class laporan
 		return $data;
 	}
 
-	function tglLaporan($karyawan_id)
+	function lastLaporan($karyawan_id)
 	{
 		$query = "SELECT * FROM laporan l, karyawan k WHERE l.id_karyawan=k.id_karyawan AND l.id_karyawan=:karyawan_id ORDER BY modify_date DESC LIMIT 1";
 		$this->obj->query($query);

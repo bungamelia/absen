@@ -5,7 +5,7 @@
 	$absen = new absen();
 	$notice = new notice();
 	$shift = new shift();
-	$laporan = new laporan();
+	$report = new laporan();
 	
 	if ($user->loggedin() == "0") { 
 		header ("location: index.php");
@@ -41,15 +41,27 @@
 	
 	if (isset($_POST['keluar'])) {
 		$data_a = $absen->getID_absen($_SESSION['id_karyawan']);
-		
+		$data_l = $report->lastLaporan($_SESSION['id_karyawan']);
+
 		$id_karyawan = $_SESSION['id_karyawan'];
 		$waktu = $_POST['waktu'];
 		$status = 'keluar';
 		$id_shift = $data_a->id_shift;
 		
 		$absen->add_absen($id_karyawan, $id_shift, $waktu, $status);
-		print_r($data_a);
-		//header ("Location: user.php");
+		
+		if($data_l->state == "draft"){
+			$karyawan_id = $data_l->id_karyawan;
+			$id_jabatan = $data_l->id_jabatan;
+			$modify_date = $_POST['waktu'];
+			$laporan = $data_l->content;
+			$report_id = $data_l->id_laporan;
+			$state = 'publish';
+			
+			$report->edit_laporan($karyawan_id, $id_jabatan, $report_id, $modify_date, $laporan, $state);
+		}
+		
+		header ("Location: user.php");
 	}
 ?>
 
@@ -168,7 +180,7 @@
 								</div>
 								<div class="form-actions">
 								  <input type="hidden" name="waktu" value="<?php echo date('Y-m-d H:i:s');?>">
-								 <?php
+								<?php
 									$hariini = tgl_indo(date('Y-m-d'));
 									$date_add = date('Y-m-d H:i:s',strtotime('+18 hours',strtotime($data->waktu)));
 									
@@ -187,7 +199,7 @@
 									} elseif ($data->status == "masuk" && $tgl_db == $hariini) { ?>
 										<input type="submit" class="btn btn-primary" name="keluar" value="Absen Keluar"><?php } ?>
 								<?php
-									$datatgl = $laporan->tglLaporan($id_karyawan);
+									$datatgl = $report->lastLaporan($id_karyawan);
 									$tglreport = explode(" ", $datatgl->modify_date);
 									$today = date('Y-m-d');
 									if ($tglreport[0] != $today) {

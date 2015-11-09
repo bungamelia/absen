@@ -6,6 +6,7 @@
 	$karyawan = new karyawan();
 	$notice = new notice();
 	$shift = new shift();
+	$report = new laporan();
 	
 	if ($user->loggedin() == "0") { 
 		header ("location: index.php");
@@ -35,12 +36,25 @@
 	}
 	
 	if (isset($_POST['keluar'])) {
+		$data_l = $report->lastLaporan($_SESSION['id_karyawan']);
+		
 		$id_karyawan = $_SESSION['id_karyawan'];
 		$waktu = $_POST['waktu'];
 		$status = 'keluar';
 		$id_shift = "4";
 		
 		$absen->add_absen($id_karyawan, $id_shift, $waktu, $status);
+		
+		if($data_l->state == "draft"){
+			$karyawan_id = $data_l->id_karyawan;
+			$id_jabatan = $data_l->id_jabatan;
+			$modify_date = $_POST['waktu'];
+			$laporan = $data_l->content;
+			$report_id = $data_l->id_laporan;
+			$state = 'publish';
+			
+			$report->edit_laporan($karyawan_id, $id_jabatan, $report_id, $modify_date, $laporan, $state);
+		}
 		
 		header ("Location: admin.php");
 	}
@@ -168,12 +182,20 @@
 										$id_karyawan = $_SESSION['id_karyawan'];
 										$waktu = $date_add;
 										$status = "keluar";
-										$absen->add_absen($id_karyawan, $waktu, $status);	?>
+										$id_shift = $data->id_shift;
+										
+										$absen->add_absen($id_karyawan, $id_shift, $waktu, $status);	?>
 										<input type="submit" class="btn btn-primary" name="masuk" value="Absen Masuk">
 									<?php
 									} elseif($data->status == "masuk" && $tgl_db == $hariini) { ?>
 										<input type="submit" class="btn btn-primary" name="keluar" value="Absen Keluar"><?php } ?>
-								  <a class="btn btn-primary" href="add_laporan.php" >Laporan</a>
+								  <?php
+									$datatgl = $report->lastLaporan($id_karyawan);
+									$tglreport = explode(" ", $datatgl->modify_date);
+									$today = date('Y-m-d');
+									if ($tglreport[0] != $today) {
+								 ?>
+									<a class="btn btn-primary" href="add_laporan.php" >Laporan</a><?php } ?>
 								</div>
 							</form>
 						</div>

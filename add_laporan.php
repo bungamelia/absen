@@ -11,7 +11,7 @@
 		header("Location = index.php");
 	} 
 	
-	$datatgl = $report->tglLaporan($employee_id);
+	$datatgl = $report->lastLaporan($employee_id);
 	$tglreport = explode(" ", $datatgl->modify_date);
 	$today = date('Y-m-d');
 
