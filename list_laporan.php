@@ -116,6 +116,7 @@
 						<table class="table table-striped table-bordered bootstrap-datatable datatable">
 						  <thead>
 							  <tr>
+								  <th>No.</th>
 								  <th>Username</th>
 								  <th>Tanggal</th>
 								  <th>Subject</th>
@@ -125,6 +126,7 @@
 						  <tbody>
 						  <?php 
 							if (isset($_POST['search'])) {
+								$no = 1;
 								$nama_karyawan = $_POST['nama_karyawan'];
 								$tgl_dari = explode("/", $_POST['dari']);
 								$dari = $tgl_dari[2]."-".$tgl_dari[0]."-".$tgl_dari[1];
@@ -138,6 +140,7 @@
 								foreach ($row as $data) {
 						  ?>
 							<tr>
+								<td><?php echo $no++; ?></td>
 								<td><?php echo $data->username; ?></td>
 								<td><?php echo tgl_indo($data->create_date); ?></td>
 								<td><?php echo $data->subject; ?></td>
@@ -164,9 +167,11 @@
 							</tr>
 							<?php } 
 							} else { 
+								$no = 1;
 								$getlaporan = $report->getAll_laporan();
 								foreach ($getlaporan as $dataAll) { ?>
 							<tr>
+								<td><?php echo $no++."."; ?></td>
 								<td><?php echo $dataAll->username; ?></td>
 								<td><?php echo tgl_indo($dataAll->create_date); ?></td>
 								<td><?php echo $dataAll->subject; ?></td>
