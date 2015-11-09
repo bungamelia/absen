@@ -5,6 +5,7 @@
 	$absen = new absen();
 	$notice = new notice();
 	$shift = new shift();
+	$laporan = new laporan();
 	
 	if ($user->loggedin() == "0") { 
 		header ("location: index.php");
@@ -153,8 +154,6 @@
 										} else { ?>
 											<img class="grayscale" src="http://www.gamesindustry.biz/img/base/default-user.png" alt="Sample Image 1"></a><?php } ?>
 									</div>
-								
-								
 								<?php
 									$data = $absen->getID_absen($id_karyawan);
 									$tgl_db = tgl_indo($data->waktu);
@@ -187,7 +186,14 @@
 									<?php 
 									} elseif ($data->status == "masuk" && $tgl_db == $hariini) { ?>
 										<input type="submit" class="btn btn-primary" name="keluar" value="Absen Keluar"><?php } ?>
+								<?php
+									$datatgl = $laporan->tglLaporan($id_karyawan);
+									$tglreport = explode(" ", $datatgl->modify_date);
+									$today = date('Y-m-d');
+									if ($tglreport[0] != $today) {
+								?>
 								  <a class="btn btn-primary" href="add_laporan.php" >Laporan</a>
+								<?php } ?>
 								</div>
 							</form>
 						</div><!--/row -->  

@@ -10,6 +10,14 @@
 	
 	$employee_id = $_SESSION['id_karyawan'];
 	
+	$datatgl = $report->tglLaporan($employee_id);
+	$tglreport = explode(" ", $datatgl->modify_date);
+	$today = date('Y-m-d');
+
+	if ($tglreport[0] == $today) {
+		echo ("<script LANGUAGE='JavaScript'> window.alert('Laporan telah dibuat'); self.history.back(); </script>");
+	}
+	
 	if (isset($_POST['draft'])) {
 		$karyawan_id = $_SESSION['id_karyawan'];
 		$id_jabatan = $_SESSION['id_jabatan'];

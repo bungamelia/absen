@@ -119,7 +119,7 @@
 						  ?>
 							<tr>
 								<td><?php echo $data->username; ?></td>
-								<td><?php echo tgl_indo($data->create_date); ?></td>
+								<td><?php echo tgl_indo($data->modify_date); ?></td>
 								<td><?php echo $data->subject; ?></td>
 								<td class="center">
 								<?php 

@@ -3,6 +3,7 @@
 	include_once 'bootstrap/header.php';
 	$user = new user();
 	$karyawan = new karyawan();
+	$shift = new shift();
 	
 	if ($user->loggedin() == "0") { 
 		header("Location = index.php");
@@ -11,14 +12,7 @@
 	$username = $_SESSION['username'];
 	$karyawan_id = $_SESSION['id_karyawan'];	
 	$id_jabatan = $_SESSION['id_jabatan'];	
-	
-	if (isset($_POST['ganti'])) {
-		$karyawan_id = $_SESSION['id_karyawan'];
-		$id_jabatan = $_SESSION['id_jabatan'];
-		$new_pass = $_POST['new_pass'];
-		
-		$karyawan->edit_password($karyawan_id, $id_jabatan, $new_pass);
-	}
+
 ?>
 
 <body>
@@ -63,15 +57,25 @@
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
 						<li><?php if ($_SESSION['id_jabatan'] == 1) { ?><a href="admin.php"><?php } else { ?><a href="user.php"><?php } ?>
-						<i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
+						<i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>	
 						<?php
 							if ($_SESSION['id_jabatan'] == 1) {
-						?>
+						?>	
 						<li><a href="list_laporan.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
 						<li><a href="list_karyawan.php"><i class="icon-user"></i><span class="hidden-tablet"> Karyawan</span></a></li>
 						<li><a href="report_absen.php"><i class="icon-check"></i><span class="hidden-tablet"> Absen</span></a></li>
 						<li><a href="list_shift.php"><i class="icon-time"></i><span class="hidden-tablet"> Shift</span></a></li>
-						<?php } ?>
+						<?php } else { ?>
+						<li><a href="laporan_user.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Laporan</span></a></li>
+						<li><a href="absen_user.php"><i class="icon-check"></i><span class="hidden-tablet"> Absen</span></a></li>
+						<?php
+							$user_shift = $shift->tampil_shiftline($_SESSION['id_karyawan']);
+							foreach ($user_shift as $all_shiftline) {
+								$getUser = $all_shiftline->id_karyawan;				
+							}
+							if ($getUser == $_SESSION['id_karyawan']) { 
+						?>
+						<li><a href="shift_user.php"><i class="icon-time"></i><span class="hidden-tablet"> Jadwal Shift</span></a></li><?php } } ?>
 					</ul>
 				</div>
 			</div>
@@ -99,14 +103,24 @@
 						<form class="form-horizontal" method="POST">
 						  <fieldset>
 							<?php
-								if(isset($_POST['ganti'])){
-									if($_POST['new_pass'] != $_POST['confirm_pass']){
+								if (isset($_POST['ganti'])) {
+									if ($_POST['new_pass'] != $_POST['confirm_pass']) {
 							?>
 							<div class="control-group error">
 								<div class="controls">
 								  <span class="help-inline">Password tidak sama</span>
 								</div>
-								</div><?php } } ?>
+								</div>
+							<?php 
+									} else {
+										$karyawan_id = $_SESSION['id_karyawan'];
+										$id_jabatan = $_SESSION['id_jabatan'];
+										$new_pass = $_POST['new_pass'];
+										
+										$karyawan->edit_password($karyawan_id, $id_jabatan, $new_pass);
+									}
+								} 
+							?>
 							<div class="control-group">
 								<label class="control-label">Password Baru</label>
 								<div class="controls">

@@ -10,7 +10,8 @@
 	} 
 	
 	$username = $_SESSION['username'];
-	$karyawan_id = $_SESSION['id_karyawan'];		
+	$karyawan_id = $_SESSION['id_karyawan'];
+
 ?>
 
 <body>
@@ -139,7 +140,6 @@
 							<div class="form-actions">
 								<a href="edit_karyawan.php?id=<?php echo $karyawan_id; ?>" class="btn btn-primary">Edit Profile</a>
 								<a href="edit_password.php?id=<?php echo $karyawan_id; ?>" class="btn btn-primary">Ganti Password</a>
-							</div>
 						 <?php } ?>
 					</div>
 				</div><!--/span-->

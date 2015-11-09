@@ -69,6 +69,16 @@ class laporan
 		$data = $this->obj->resultset();
 		return $data;
 	}
+
+	function tglLaporan($karyawan_id)
+	{
+		$query = "SELECT * FROM laporan l, karyawan k WHERE l.id_karyawan=k.id_karyawan AND l.id_karyawan=:karyawan_id ORDER BY modify_date DESC LIMIT 1";
+		$this->obj->query($query);
+		$this->obj->bind(':karyawan_id',$karyawan_id);
+		$this->obj->execute();
+		$data = $this->obj->single();
+		return $data;
+	}
 	
 	function getID_laporan($report_id)
 	{
