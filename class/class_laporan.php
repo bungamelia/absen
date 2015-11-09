@@ -30,7 +30,7 @@ class laporan
 	public function tampil_laporan($karyawan_id, $dari, $sampai)
 	{
 		$query = "SELECT * FROM laporan l, karyawan k WHERE l.id_karyawan = k.id_karyawan AND l.id_karyawan=:karyawan_id AND 
-		modify_date >= :dari AND modify_date <= :sampai";
+		modify_date >= :dari AND modify_date <= :sampai ORDER BY id_laporan DESC";
 		$this->obj->query($query);
 		$this->obj->bind(':karyawan_id',$karyawan_id);
 		$this->obj->bind(':dari',$dari);
