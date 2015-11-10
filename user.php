@@ -279,6 +279,15 @@
 						</div>	
 					</div>
 				</div>
+				<?php } else { ?>
+				<div class="box span4">
+					<div class="box-header">
+						<h2><i class="halflings-icon calendar"></i><span class="break"></span>Kalender</h2>		
+					</div>
+					<div class="box-content">
+						<?php require "cal.php"; ?>
+					</div>
+				</div><!--/span-->
 				<?php } ?>
 			</div><!--/row-->
 			</div><!--/.fluid-container-->
