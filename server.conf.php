@@ -71,8 +71,8 @@ function get_time_difference($time1, $time2) {
 
 function denda($menit)
 {
-    $dua    = get_time_difference("09:30:00","09:16:00");
-    $tiga   = get_time_difference("09:31:00","10:00:00");
+    $dua    = get_time_difference("09:16:00","09:30:00");
+    $tiga   = get_time_difference("09:31:00","09:45:00");
     if($menit <= $dua):
         echo "Rp. 20.000";
     elseif($menit > $dua && $menit <= $tiga):

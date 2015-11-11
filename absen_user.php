@@ -149,7 +149,21 @@
 										} 
 									} ?>
 								<td><?php echo $data->status; ?></td>
-								<td></td>
+								<?php 
+									if ($data->id_shift == "1") {
+										$shiftID = "1";
+										$rowID = $shift->getID_shift($shiftID); ?>
+										<td><?php if ($data->status == "masuk"){ echo get_time_difference($rowID->start_shift, $jam_masuk); } ?></td><?php 
+									} elseif ($data->id_shift == "2" || $data->id_shift == "4") { 
+										$shiftID = "2";
+										$rowID = $shift->getID_shift($shiftID); ?>
+										<td><?php if ($data->status == "masuk"){ echo get_time_difference($rowID->start_shift, $jam_masuk); } ?></td><?php
+									} else { 
+										$shiftID = "3";
+										$rowID = $shift->getID_shift($shiftID); ?>
+										<td><?php if ($data->status == "masuk"){ echo get_time_difference($rowID->start_shift, $jam_masuk); } ?></td><?php 
+									} 
+								?>
 								<td>
 								<?php if ($data->status == "masuk"){
 									$tgl = explode(" ", $data->waktu);
