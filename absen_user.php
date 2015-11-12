@@ -118,31 +118,31 @@
 								<?php 
 									$jam_masuk = jam($data->waktu);
 									if ($data->id_shift == "1") {
-										if ($data->status == "masuk" && $jam_masuk >= date('00:01:00') && $jam_masuk < date('00:15:00')) { ?>
+										if ($data->status == "masuk" && $jam_masuk >= date('00:16:00') && $jam_masuk < date('00:30:00')) { ?>
 											<td class="green"><?php echo jam($data->waktu); ?></td><?php 
-										} elseif($data->status == "masuk" && $jam_masuk >= date('00:15:00') && $jam_masuk < date('00:30:00')) { ?>
+										} elseif($data->status == "masuk" && $jam_masuk >= date('00:31:00') && $jam_masuk < date('00:45:00')) { ?>
 											<td class="yellow"><?php echo jam($data->waktu); ?></td><?php  
-										} elseif($data->status == "masuk" && $jam_masuk >= date('00:30:00') && $jam_masuk < date('09:00:00')) { ?>
+										} elseif($data->status == "masuk" && $jam_masuk >= date('00:46:00') && $jam_masuk < date('09:00:00')) { ?>
 											<td class="red"><?php echo jam($data->waktu); ?></td><?php 
 										} else { ?>
 											<td><?php echo jam($data->waktu); ?></td><?php 
 										} 
 									} elseif ($data->id_shift == "2" || $data->id_shift == "4") { 
-										if ($data->status == "masuk" && $jam_masuk >= date('09:01:00') && $jam_masuk < date('09:15:00')) { ?>
+										if ($data->status == "masuk" && $jam_masuk >= date('09:16:00') && $jam_masuk < date('09:30:00')) { ?>
 											<td class="green"><?php echo jam($data->waktu); ?></td><?php 
-										} elseif ($data->status == "masuk" && $jam_masuk >= date('09:15:00') && $jam_masuk < date('09:30:00')) { ?>
+										} elseif ($data->status == "masuk" && $jam_masuk >= date('09:31:00') && $jam_masuk < date('09:45:00')) { ?>
 											<td class="yellow"><?php echo jam($data->waktu); ?></td><?php
-										} elseif($data->status == "masuk" && $jam_masuk >= date('09:30:00')) { ?>
+										} elseif($data->status == "masuk" && $jam_masuk >= date('09:46:00')) { ?>
 											<td class="red"><?php echo jam($data->waktu); ?></td><?php
 										} else { ?>
 											<td><?php echo jam($data->waktu); ?></td><?php 
 										} 
 									} else { 
-										if ($data->status == "masuk" && $jam_masuk >= date('16:01:00') && $jam_masuk < date('16:15:00')) { ?>
+										if ($data->status == "masuk" && $jam_masuk >= date('16:15:00') && $jam_masuk < date('16:30:00')) { ?>
 											<td class="green"><?php echo jam($data->waktu); ?></td><?php 
-										} elseif($data->status == "masuk" && $jam_masuk >= date('16:15:00') && $jam_masuk < date('16:30:00')) { ?>
+										} elseif($data->status == "masuk" && $jam_masuk >= date('16:31:00') && $jam_masuk < date('16:45:00')) { ?>
 											<td class="yellow"><?php echo jam($data->waktu); ?></td><?php 
-										} elseif($data->status == "masuk" && $jam_masuk >= date('16:30:00') && $jam_masuk < date('01:00:00')) { ?>
+										} elseif($data->status == "masuk" && $jam_masuk >= date('16:46:00') && $jam_masuk < date('01:00:00')) { ?>
 											<td class="red"><?php echo jam($data->waktu); ?></td><?php
 										} else { ?>
 											<td><?php echo jam($data->waktu); ?></td><?php 
@@ -153,15 +153,24 @@
 									if ($data->id_shift == "1") {
 										$shiftID = "1";
 										$rowID = $shift->getID_shift($shiftID); ?>
-										<td><?php if ($data->status == "masuk"){ echo get_time_difference($rowID->start_shift, $jam_masuk); } ?></td><?php 
+										<td><?php if ($data->status == "masuk"){ 
+											echo get_time_difference($rowID->start_shift, $jam_masuk). " || "; 
+											echo denda_shift1($jam_masuk);
+										} ?></td><?php 
 									} elseif ($data->id_shift == "2" || $data->id_shift == "4") { 
 										$shiftID = "2";
 										$rowID = $shift->getID_shift($shiftID); ?>
-										<td><?php if ($data->status == "masuk"){ echo get_time_difference($rowID->start_shift, $jam_masuk); } ?></td><?php
+										<td><?php if ($data->status == "masuk"){ 
+											echo get_time_difference($rowID->start_shift, $jam_masuk). " || "; 
+											echo denda_shift2($jam_masuk); 
+										} ?></td><?php
 									} else { 
 										$shiftID = "3";
 										$rowID = $shift->getID_shift($shiftID); ?>
-										<td><?php if ($data->status == "masuk"){ echo get_time_difference($rowID->start_shift, $jam_masuk); } ?></td><?php 
+										<td><?php if ($data->status == "masuk"){ 
+											echo get_time_difference($rowID->start_shift, $jam_masuk). " || "; 
+											echo denda_shift3($jam_masuk); 
+										} ?></td><?php 
 									} 
 								?>
 								<td>

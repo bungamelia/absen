@@ -69,13 +69,39 @@ function get_time_difference($time1, $time2) {
     return date("H:i:s", strtotime("1980-01-01 00:00:00") + ($time2 - $time1));
 }
 
-function denda($menit)
+function denda_shift2($menit)
 {
-    $dua    = get_time_difference("09:16:00","09:30:00");
-    $tiga   = get_time_difference("09:31:00","09:45:00");
-    if($menit <= $dua):
+    if($menit <= date('09:15:00')):
+		echo "-";
+	elseif($menit > date('09:15:00') && $menit <= date('09:30:00')):
         echo "Rp. 20.000";
-    elseif($menit > $dua && $menit <= $tiga):
+    elseif($menit > date('09:30:00') && $menit <= date('09:45:00')):
+        echo "Rp. 30.000";
+    else:
+        echo "Rp. 50.000";
+    endif;
+}
+
+function denda_shift1($menit)
+{
+     if($menit <= date('00:15:00')):
+		echo "-";
+	elseif($menit > date('00:15:00') && $menit <= date('00:30:00')):
+        echo "Rp. 20.000";
+    elseif($menit > date('00:30:00') && $menit <= date('00:45:00')):
+        echo "Rp. 30.000";
+    else:
+        echo "Rp. 50.000";
+    endif;
+}
+
+function denda_shift3($menit)
+{
+    if($menit <= date('16:15:00')):
+		echo "-";
+	elseif($menit > date('16:15:00') && $menit <= date('16:30:00')):
+        echo "Rp. 20.000";
+    elseif($menit > date('16:30:00') && $menit <= date('16:45:00')):
         echo "Rp. 30.000";
     else:
         echo "Rp. 50.000";
