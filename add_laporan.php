@@ -8,7 +8,7 @@
 	$employee_id = $_SESSION['id_karyawan'];
 	
 	if ($user->loggedin() == "0") { 
-		header("Location = index.php");
+		header("Location: index.php");
 	} 
 	
 	$datatgl = $report->lastLaporan($employee_id);

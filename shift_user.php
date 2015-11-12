@@ -5,7 +5,7 @@
 	$shift = new shift();
 	
 	if ($user->loggedin() == "0") { 
-		header("Location = index.php");
+		header("Location: index.php");
 	} 
 
 	$employee_id = $_SESSION['id_karyawan'];

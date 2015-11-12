@@ -5,7 +5,7 @@
 	$shift = new shift();
 	
 	if ($user->loggedin() == "0") { 
-		header("Location = index.php");
+		header("Location: index.php");
 	} 
 	
 	if ($_SESSION['id_jabatan'] != 1) {

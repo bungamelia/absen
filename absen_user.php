@@ -7,7 +7,7 @@
 	$shift = new shift();
 	
 	if ($user->loggedin() == "0") { 
-		header("Location = index.php");
+		header("Location: index.php");
 	} 
 	
 	$username = $_SESSION['username'];
