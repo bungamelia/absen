@@ -106,7 +106,7 @@ class shift
 			
 	public function getAll_shiftline()
 	{
-		$query = "SELECT * FROM shift_line sl, karyawan k, shift s WHERE sl.id_karyawan = k.id_karyawan AND sl.id_shift = s.id_shift ORDER BY id_shiftline";
+		$query = "SELECT * FROM shift_line sl, karyawan k, shift s WHERE sl.id_karyawan = k.id_karyawan AND sl.id_shift = s.id_shift ORDER BY id_shiftline DESC";
 		$this->obj->query($query);
 		$this->obj->execute();
 		$data = $this->obj->resultset();

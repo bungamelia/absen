@@ -131,7 +131,7 @@
 									<a class="btn btn-info" href="edit_laporan.php?id=<?php echo $data->id_laporan; ?>">
 										<i class="halflings-icon white edit"></i>  
 									</a>
-									<a class="btn btn-danger" href="#">
+									<a class="btn btn-danger" href="laporan_user.php?delete=<?php echo $data->id_laporan; ?>" onclick="if(!confirm('Are you sure?')){return false};">
 										<i class="halflings-icon white trash"></i> 
 									</a><?php } else { ?>
 									<a class="btn btn-success" href="detail_laporan.php?id=<?php echo $data->id_laporan; ?>">
