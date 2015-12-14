@@ -157,7 +157,7 @@ a:focus {
     color: rgba(255,255,255,0.75);
     -moz-border-radius: 50px;
     -webkit-border-radius: 50px;
-    border-radius: 50px;
+    border-radius: 0px;
     line-height: normal;
     margin-left: 5px;
     height: 33px;
@@ -628,7 +628,7 @@ a:focus {
     display: inline-block;
     color: #fff;
     font-size: 32px;
-    border-radius: 3px;
+    border-radius: 0px;
     padding-top: 1px;
     padding-left: 10px;
 }
@@ -3073,16 +3073,16 @@ body.signin {
 }
 
 .row-stat .panel .panel-heading {
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
 }
 
 .panel-icon {
     background: rgba(255,255,255,0.9);
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
     width: 60px;
     height: 60px;
     float: left;

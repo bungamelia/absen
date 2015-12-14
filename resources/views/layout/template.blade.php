@@ -27,7 +27,7 @@
         <header>
             <div class="headerwrapper">
                 <div class="header-left">
-                    <a href="index.html" class="logo">
+                    <a href="/" class="logo">
                         <img src="resources/images/logo-primary.png" alt="" width="120" height="30" /> 
                     </a>
                     <div class="pull-right">

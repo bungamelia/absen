@@ -21,7 +21,11 @@ class loginController extends Controller
     public function index()
     {
         //
-        return view('login/index');
+        if (Auth::check()):
+            return \Redirect::to('dashboard');
+        else:
+            return view('login/index');
+        endif;
 	}
 	
 

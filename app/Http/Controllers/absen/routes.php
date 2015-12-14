@@ -10,12 +10,7 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-foreach (glob(app_path()."/Http/Controllers/*/routes.php") as $filename)
-{
-    include $filename;
-}
 
-
-
-
-
+Route::get       ('absen',  'absen\controllers\absenController@index');
+Route::post      ('upload', 'absen\controllers\absenController@upload');
+Route::post      ('keluar', 'absen\controllers\absenController@store');

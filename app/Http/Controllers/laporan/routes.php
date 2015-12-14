@@ -10,12 +10,6 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-foreach (glob(app_path()."/Http/Controllers/*/routes.php") as $filename)
-{
-    include $filename;
-}
-
-
-
-
-
+Route::get       ('laporan', 'laporan\controllers\laporanController@index');
+Route::post      ('laporan', 'laporan\controllers\laporanController@store');
+Route::post      ('laporan/{id}/edit',  'laporan\controllers\laporanController@update');
