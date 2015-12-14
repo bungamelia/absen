@@ -23,24 +23,28 @@ class pengumumanController extends Controller
   public function index()
   {
     //
-    $id_karyawan = Auth::user()->id_karyawan;
-		$today       = date("Y-m-d");
+    if (Auth::check()) {
+        $id_karyawan = Auth::user()->id_karyawan;
+    		$today       = date("Y-m-d");
 
-		$notice      = pModel::where("id_karyawan","=",$id_karyawan)
-							                    ->paginate(10);
+    		$notice      = pModel::where("id_karyawan","=",$id_karyawan)
+    							           ->paginate(10);
 
-		$getNotice   = pModel::where("id_karyawan","=",$id_karyawan)
-							                    ->where("tanggal","=",$today)
-								                  ->get();
+    		$getNotice   = pModel::where("id_karyawan","=",$id_karyawan)
+    							           ->where("tanggal","=",$today)
+    								         ->get();
 
-   \DB::table('logs')->insert([
-                           'id_karyawan' => $id_karyawan, 
-                           'content'     => Auth::user()->username.' akses halaman daftar pengumuman',
-                           'created_at'  => date('Y-m-d H:i:s'),
-                           'updated_at'  => date('Y-m-d H:i:s')]
-                          );
+       \DB::table('logs')->insert([
+                               'id_karyawan' => $id_karyawan, 
+                               'content'     => Auth::user()->username.' akses halaman daftar pengumuman',
+                               'created_at'  => date('Y-m-d H:i:s'),
+                               'updated_at'  => date('Y-m-d H:i:s')]
+                              );
 
-    return view('pengumuman/index')->with("notice",$notice)
-                                   ->with("getNotice",$getNotice);
+        return view('pengumuman/index')->with("notice",$notice)
+                                       ->with("getNotice",$getNotice);
+    } else {
+        return \Redirect::to('login');
+      }
 	}
 }

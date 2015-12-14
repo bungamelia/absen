@@ -9,8 +9,8 @@ namespace App\Http\Controllers\shift\controllers;
 use Illuminate\Http\Request;
 
 use Auth;
-use App\Http\Controllers\shift\models\shiftModel as sModel;
-use App\Http\Controllers\pengumuman\models\pengumumanModel as pModel;
+use App\Http\Controllers\shift\models\shiftModel as Shift;
+use App\Http\Controllers\pengumuman\models\pengumumanModel as Notice;
 use App\Http\Controllers\request\models\requestModel as rModel;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -25,17 +25,17 @@ class shiftController extends Controller
   public function index()
   {
     //
-		//if (Auth::check()) {
+		if (Auth::check()) {
       $id_karyawan = Auth::user()->id_karyawan;
       $today       = date("Y-m-d");
-      $getNotice   = pModel::where("id_karyawan","=",$id_karyawan)
+      $getNotice   = Notice::where("id_karyawan","=",$id_karyawan)
                                   ->where("tanggal","=",$today)
                                   ->get();
 
       $shift       = \DB::table('shift')->get();
 
       $month_end   = date('Y-m-d', strtotime('last day of this month', time()));
-      $shiftLine   = sModel::join("shift","shift_line.id_shift","=","shift.id_shift")
+      $shiftLine   = Shift::join("shift","shift_line.id_shift","=","shift.id_shift")
                            ->where("id_karyawan","=",$id_karyawan)
                            ->whereBetween("tanggal_shift", array($today, $month_end))
                            ->orderBy("id_shiftline")
@@ -56,9 +56,9 @@ class shiftController extends Controller
                                 ->with("shift", $shift)
                                 ->with("shiftLine", $shiftLine)
                                 ->with("req", $req);
-    /*} else {
+    } else {
         return \Redirect::to('login');
-    }*/
+    }
   }
 
 

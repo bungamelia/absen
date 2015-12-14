@@ -10,8 +10,8 @@ namespace App\Http\Controllers\laporan\controllers;
 use Illuminate\Http\Request;
 
 use Auth;
-use App\Http\Controllers\laporan\models\laporanModel as lModel;
-use App\Http\Controllers\pengumuman\models\pengumumanModel as pModel;
+use App\Http\Controllers\laporan\models\laporanModel as Laporan;
+use App\Http\Controllers\pengumuman\models\pengumumanModel as Notice;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -25,24 +25,28 @@ class laporanController extends Controller
     public function index()
     {
         //
-		$id_karyawan = Auth::user()->id_karyawan;
-		$today       = date("Y-m-d");
-		$report      = lModel::where("id_karyawan","=",$id_karyawan)
-							  ->paginate(10);
+        if (Auth::check()) {
+			$id_karyawan = Auth::user()->id_karyawan;
+			$today       = date("Y-m-d");
+			$report      = Laporan::where("id_karyawan","=",$id_karyawan)
+								  ->paginate(10);
 
-		$getNotice   = pModel::where("id_karyawan","=",$id_karyawan)
-							          ->where("tanggal","=",$today)
-									  ->get();
+			$getNotice   = Notice::where("id_karyawan","=",$id_karyawan)
+								          ->where("tanggal","=",$today)
+										  ->get();
 
-		\DB::table('logs')->insert([
-						   'id_karyawan' => $id_karyawan, 
-		                   'content'     => Auth::user()->username.' akses halaman daftar laporan',
-		                   'created_at'  => date('Y-m-d H:i:s'),
-		                   'updated_at'  => date('Y-m-d H:i:s')]
-							);
+			\DB::table('logs')->insert([
+							   'id_karyawan' => $id_karyawan, 
+			                   'content'     => Auth::user()->username.' akses halaman daftar laporan',
+			                   'created_at'  => date('Y-m-d H:i:s'),
+			                   'updated_at'  => date('Y-m-d H:i:s')]
+								);
 
-        return view('laporan/index')->with("report",$report)
-        							->with("getNotice",$getNotice);
+	        return view('laporan/index')->with("report",$report)
+	        							->with("getNotice",$getNotice);
+	    } else {
+	    	return \Redirect::to('login');
+	    }
 	}
 	
 
@@ -54,29 +58,33 @@ class laporanController extends Controller
 	public function store(Request $request)
     {
         //
-		$report				 = new lModel;
-		$report->id_karyawan = Auth::user()->id_karyawan;
-		$report->content     = \Input::get('content');
-		$report->tanggal     = date("Y-m-d");
-		$draft               = \Input::get('draft');
-		$publish             = \Input::get('publish');
+        if (Auth::check()) {
+			$report				 = new Laporan;
+			$report->id_karyawan = Auth::user()->id_karyawan;
+			$report->content     = \Input::get('content');
+			$report->tanggal     = date("Y-m-d");
+			$draft               = \Input::get('draft');
+			$publish             = \Input::get('publish');
 
-			if (empty($draft)) {
-				$report->state = "Publish";
-			} else {
-				$report->state = "Draft";
-			}
+				if (empty($draft)) {
+					$report->state = "Publish";
+				} else {
+					$report->state = "Draft";
+				}
 
-		$report->save();
-		
-		\DB::table('logs')->insert([
-						   'id_karyawan' => Auth::user()->id_karyawan, 
-		                   'content'     => Auth::user()->username.' input data laporan hari ini',
-		                   'created_at'  => date('Y-m-d H:i:s'),
-		                   'updated_at'  => date('Y-m-d H:i:s')]
-							);
+			$report->save();
+			
+			\DB::table('logs')->insert([
+							   'id_karyawan' => Auth::user()->id_karyawan, 
+			                   'content'     => Auth::user()->username.' input data laporan hari ini',
+			                   'created_at'  => date('Y-m-d H:i:s'),
+			                   'updated_at'  => date('Y-m-d H:i:s')]
+								);
 
-		return \Redirect::to('laporan');
+			return \Redirect::to('laporan');
+		} else {
+	    	return \Redirect::to('login');
+	    }
     }
 
 
@@ -88,18 +96,22 @@ class laporanController extends Controller
     public function update(Request $request, $id_laporan)
     {
         //
-		$report 		 = lModel::find($id_laporan);
-		$report->content = \Input::get('content');
-		$report->state   = "Publish";
-		$report->save();
-		
-		\DB::table('logs')->insert([
-						   'id_karyawan' => Auth::user()->id_karyawan, 
-		                   'content'     => Auth::user()->username.' edit data laporan hari ini',
-		                   'created_at'  => date('Y-m-d H:i:s'),
-		                   'updated_at'  => date('Y-m-d H:i:s')]
-							);
+        if (Auth::check()) {
+			$report 		 = Laporan::find($id_laporan);
+			$report->content = \Input::get('content');
+			$report->state   = "Publish";
+			$report->save();
+			
+			\DB::table('logs')->insert([
+							   'id_karyawan' => Auth::user()->id_karyawan, 
+			                   'content'     => Auth::user()->username.' edit data laporan hari ini',
+			                   'created_at'  => date('Y-m-d H:i:s'),
+			                   'updated_at'  => date('Y-m-d H:i:s')]
+								);
 
-		return \Redirect::to('laporan');
+			return \Redirect::to('laporan');
+		} else {
+	    	return \Redirect::to('login');
+	    }
     }
 }

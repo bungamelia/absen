@@ -9,9 +9,9 @@ namespace App\Http\Controllers\absen\controllers;
 use Illuminate\Http\Request;
 
 use Auth;
-use App\Http\Controllers\absen\models\absenModel as aModel;
-use App\Http\Controllers\pengumuman\models\pengumumanModel as pModel;
-use App\Http\Controllers\laporan\models\laporanModel as lModel;
+use App\Http\Controllers\absen\models\absenModel as Absen;
+use App\Http\Controllers\pengumuman\models\pengumumanModel as Notice;
+use App\Http\Controllers\laporan\models\laporanModel as Laporan;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -24,27 +24,30 @@ class absenController extends Controller
      */
     public function index()
     {
-        //
-        $id_karyawan = Auth::user()->id_karyawan;
-		$today       = date("Y-m-d");
+        if (Auth::check()) {
+	        $id_karyawan = Auth::user()->id_karyawan;
+			$today       = date("Y-m-d");
 
-		$absen       = aModel::where("id_karyawan","=",$id_karyawan)
-						     ->orderBy("id_absen", "DESC")
-						     ->paginate(10);
+			$absen       = Absen::where("id_karyawan","=",$id_karyawan)
+							     ->orderBy("id_absen", "DESC")
+							     ->paginate(10);
 
-		$getNotice   = pModel::where("id_karyawan","=",$id_karyawan)
-							 ->where("tanggal","=",$today)
-							 ->get();
+			$getNotice   = Notice::where("id_karyawan","=",$id_karyawan)
+								 ->where("tanggal","=",$today)
+								 ->get();
 
-		\DB::table('logs')->insert([
-				             'id_karyawan' => $id_karyawan, 
-				             'content'     => Auth::user()->username.' akses halaman daftar absen',
-				             'created_at'  => date('Y-m-d H:i:s'),
-				             'updated_at'  => date('Y-m-d H:i:s')]
-				            );
+			\DB::table('logs')->insert([
+					             'id_karyawan' => $id_karyawan, 
+					             'content'     => Auth::user()->username.' akses halaman daftar absen',
+					             'created_at'  => date('Y-m-d H:i:s'),
+					             'updated_at'  => date('Y-m-d H:i:s')]
+					            );
 
-        return view('absen/index')->with("absen",$absen)
-        						  ->with("getNotice",$getNotice);
+	        return view('absen/index')->with("absen",$absen)
+	        						  ->with("getNotice",$getNotice);
+	    } else {
+	    	return \Redirect::to('login');
+	    }
 	}
 	
 
@@ -55,35 +58,38 @@ class absenController extends Controller
      */
 	public function upload(Request $request)
 	{
-		//
-		$id_karyawan = Auth::user()->id_karyawan;
-		$tahun 		 = date('Y');
-		$bulan 		 = date('m');
-		$tanggal 	 = date('d');
-		$path 		 = "uploads/".$id_karyawan."/".$tahun."/".$bulan."/".$tanggal;
-		$imageStr    = \Input::get('foto_absen');
-		$array		 = explode(',', $imageStr);
-		$image 		 = base64_decode($array[1]);
-		
-		\File::makeDirectory($path, $mode = 0777, true, true);
+		if (Auth::check()) {
+			$id_karyawan = Auth::user()->id_karyawan;
+			$tahun 		 = date('Y');
+			$bulan 		 = date('m');
+			$tanggal 	 = date('d');
+			$path 		 = "uploads/".$id_karyawan."/".$tahun."/".$bulan."/".$tanggal;
+			$imageStr    = \Input::get('foto_absen');
+			$array		 = explode(',', $imageStr);
+			$image 		 = base64_decode($array[1]);
+			
+			\File::makeDirectory($path, $mode = 0777, true, true);
 
-		file_put_contents("{$path}/{$id_karyawan}-".date('d-m-Y').".jpeg", $image);
+			file_put_contents("{$path}/{$id_karyawan}-".date('d-m-Y').".jpeg", $image);
 
-		$absen 				= new aModel;
-		$absen->id_karyawan = Auth::user()->id_karyawan;
-		$absen->id_shift    = "\Input::get('id_shift')";
-		//$absen->id_shift    = "4";
-		$absen->status      = "masuk";
-		$absen->save();
+			$absen 				= new Absen;
+			$absen->id_karyawan = Auth::user()->id_karyawan;
+			$absen->id_shift    = "\Input::get('id_shift')";
+			//$absen->id_shift    = "4";
+			$absen->status      = "masuk";
+			$absen->save();
 
-		\DB::table('logs')->insert([
-				             'id_karyawan' => $id_karyawan, 
-				             'content'     => Auth::user()->username.' foto absen dan absen masuk',
-				             'created_at'  => date('Y-m-d H:i:s'),
-				             'updated_at'  => date('Y-m-d H:i:s')]
-				            );
-		
-		return \Redirect::to('dashboard');
+			\DB::table('logs')->insert([
+					             'id_karyawan' => $id_karyawan, 
+					             'content'     => Auth::user()->username.' foto absen dan absen masuk',
+					             'created_at'  => date('Y-m-d H:i:s'),
+					             'updated_at'  => date('Y-m-d H:i:s')]
+					            );
+			
+			return \Redirect::to('dashboard');
+		} else {
+	    	return \Redirect::to('login');
+	    }
 	}
 
 
@@ -95,34 +101,38 @@ class absenController extends Controller
 	public function store(Request $request)
 	{
 		//print_r($_POST);
-		$id     = Auth::user()->id_karyawan;
-		$today  = date("Y-m-d");
-		$report = lModel::where("id_karyawan","=",$id)
-							  ->where("tanggal","=",$today)
-							  ->where("state","=","Draft")
-						      ->orderBy("id_laporan", "DESC")
-						      ->first();
+		if (Auth::check()) {
+			$id     = Auth::user()->id_karyawan;
+			$today  = date("Y-m-d");
+			$report = Laporan::where("id_karyawan","=",$id)
+								  ->where("tanggal","=",$today)
+								  ->where("state","=","Draft")
+							      ->orderBy("id_laporan", "DESC")
+							      ->first();
 
-			if (!empty($report)) {
-				$id_laporan     = \Input::get('id_laporan');
-				$laporan        = lModel::find($id_laporan);
-				$laporan->state = "Publish";
-				$laporan->save();
-			}
+				if (!empty($report)) {
+					$id_laporan     = \Input::get('id_laporan');
+					$laporan        = Laporan::find($id_laporan);
+					$laporan->state = "Publish";
+					$laporan->save();
+				}
 
-		$absen              = new aModel;
-		$absen->id_karyawan = Auth::user()->id_karyawan;
-		$absen->id_shift    = \Input::get('id_shift');
-		$absen->status      = "keluar";
-		$absen->save();
+			$absen              = new Absen;
+			$absen->id_karyawan = Auth::user()->id_karyawan;
+			$absen->id_shift    = \Input::get('id_shift');
+			$absen->status      = "keluar";
+			$absen->save();
 
-		\DB::table('logs')->insert([
-				             'id_karyawan' => $id, 
-				             'content'     => Auth::user()->username.' absen keluar',
-				             'created_at'  => date('Y-m-d H:i:s'),
-				             'updated_at'  => date('Y-m-d H:i:s')]
-				            );
+			\DB::table('logs')->insert([
+					             'id_karyawan' => $id, 
+					             'content'     => Auth::user()->username.' absen keluar',
+					             'created_at'  => date('Y-m-d H:i:s'),
+					             'updated_at'  => date('Y-m-d H:i:s')]
+					            );
 
-		return \Redirect::to('dashboard');
+			return \Redirect::to('dashboard');
+		} else {
+	    	return \Redirect::to('login');
+	    }
 	}
 }
