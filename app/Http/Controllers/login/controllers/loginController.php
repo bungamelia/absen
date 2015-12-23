@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\login\models\loginModel;
 use App\Http\Controllers\pengumuman\models\pengumumanModel as pModel;
+use App\Http\Controllers\logs\models\LogsModel as LogsModel;
 use Auth;
 use Hash;
 use App\Http\Requests;
@@ -38,18 +39,23 @@ class loginController extends Controller
 	{
 		$data = \Input::only(['username', 'password']);
 
-        if (Auth::attempt(['username' => $data['username'], 'password' => $data['password']])) {
-        	\DB::table('logs')->insert([
-                       'id_karyawan' => Auth::user()->id_karyawan, 
-                       'content'     => Auth::user()->username.' melakukan login',
-                       'created_at'  => date('Y-m-d H:i:s'),
-                       'updated_at'  => date('Y-m-d H:i:s')]
-                       );
+        if (Auth::attempt(
+            [
+                'username' => $data['username'], 
+                'password' => $data['password']
+            ]
+            )):
+                $data = array (
+                    'id_karyawan' => Auth::user()->id_karyawan, 
+                    'content'     => Auth::user()->username.' melakukan login',
+                );
+
+                LogsModel::tulis($data);
+                    
             return \Redirect::to('dashboard');
-        }
-		else {
+        else:
 			return \Redirect::to('login');
-		}
+		endif;
 		
 	}
 	
@@ -97,22 +103,25 @@ class loginController extends Controller
      */	
 	public function pengaturan()
     {
-        //
-        $id_karyawan = Auth::user()->id_karyawan;
-        $today       = date('Y-m-d');
+        if (Auth::check()):
+            $id_karyawan = Auth::user()->id_karyawan;
+            $today       = date('Y-m-d');
 
-        $getNotice   = pModel::where("id_karyawan","=",$id_karyawan)
-							 ->where("tanggal","=",$today)
-							 ->get();
+            $getNotice   = pModel::where("id_karyawan","=",$id_karyawan)
+    							 ->where("tanggal","=",$today)
+    							 ->get();
 
-		\DB::table('logs')->insert([
-	                       'id_karyawan' => Auth::user()->id_karyawan, 
-	                       'content'     => Auth::user()->username.' akses halaman pengaturan',
-	                       'created_at'  => date('Y-m-d H:i:s'),
-	                       'updated_at'  => date('Y-m-d H:i:s')]
-                       	   );
+    		\DB::table('logs')->insert([
+    	                       'id_karyawan' => Auth::user()->id_karyawan, 
+    	                       'content'     => Auth::user()->username.' akses halaman pengaturan',
+    	                       'created_at'  => date('Y-m-d H:i:s'),
+    	                       'updated_at'  => date('Y-m-d H:i:s')]
+                           	   );
 
-		return view('dashboard/pengaturan')->with("getNotice", $getNotice);
+    		return view('dashboard/pengaturan')->with("getNotice", $getNotice);
+        else:
+            return \Redirect::to('login');
+        endif;
     }
 
 
@@ -123,48 +132,52 @@ class loginController extends Controller
      */
     public function gantiPass(Request $request, $id)
     {
-        //
-        $id      = Auth::user()->id_karyawan;
+        
+        if (Auth::check()):
+            $id      = Auth::user()->id_karyawan;
 
-        $pass 	 = Auth::user()->password;
-    	
-    	$newPass = \Input::get('newPass');
-    	$konfirm = \Input::get('confirmPass');
-    	
+            $pass 	 = Auth::user()->password;
+        	
+        	$newPass = \Input::get('newPass');
+        	$konfirm = \Input::get('confirmPass');
+        	
 
-    		if (\Hash::check(\Input::get('oldPass'), $pass)) {
-    			$profile           = loginModel::find($id);
-    			$profile->password = bcrypt($newPass);
-    			$profile->save();
+        		if (\Hash::check(\Input::get('oldPass'), $pass)) {
+        			$profile           = loginModel::find($id);
+        			$profile->password = bcrypt($newPass);
+        			$profile->save();
 
-                \DB::table('logs')->insert([
+                    \DB::table('logs')->insert([
+                               'id_karyawan' => Auth::user()->id_karyawan, 
+                               'content'     => Auth::user()->username.' melukukan ganti password',
+                               'created_at'  => date('Y-m-d H:i:s'),
+                               'updated_at'  => date('Y-m-d H:i:s')]
+                               );
+
+        			return \Redirect::to('dashboard');
+        		} else {
+        			return \Redirect::to('pengaturan');
+        		}
+
+        		if ($newPass != $konfirm) {
+        			return \Redirect::to('pengaturan');
+        		} else {
+        			$profile           = loginModel::find($id);
+        			$profile->password = bcrypt($newPass);
+        			$profile->save();
+
+                    \DB::table('logs')->insert([
                            'id_karyawan' => Auth::user()->id_karyawan, 
                            'content'     => Auth::user()->username.' melukukan ganti password',
                            'created_at'  => date('Y-m-d H:i:s'),
                            'updated_at'  => date('Y-m-d H:i:s')]
                            );
 
-    			return \Redirect::to('dashboard');
-    		} else {
-    			return \Redirect::to('pengaturan');
-    		}
-
-    		if ($newPass != $konfirm) {
-    			return \Redirect::to('pengaturan');
-    		} else {
-    			$profile           = loginModel::find($id);
-    			$profile->password = bcrypt($newPass);
-    			$profile->save();
-
-                \DB::table('logs')->insert([
-                       'id_karyawan' => Auth::user()->id_karyawan, 
-                       'content'     => Auth::user()->username.' melukukan ganti password',
-                       'created_at'  => date('Y-m-d H:i:s'),
-                       'updated_at'  => date('Y-m-d H:i:s')]
-                       );
-
-    			return \Redirect::to('pengaturan');
-    		}
+        			return \Redirect::to('pengaturan');
+        		}
+        else:
+            return \Redirect::to('login');
+        endif;
     		
     }
 	

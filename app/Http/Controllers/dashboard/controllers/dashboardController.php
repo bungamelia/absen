@@ -17,6 +17,7 @@ use App\Http\Controllers\shift\models\shiftModel as Shift;
 use App\Http\Controllers\login\models\Login as Login;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\logs\models\LogsModel as LogsModel;
 
 class dashboardController extends Controller
 {
@@ -72,12 +73,6 @@ class dashboardController extends Controller
 					$absen->status      = "keluar";
 					$absen->save();
 
-					\DB::table('logs')->insert([
-							   'id_karyawan' => $id_karyawan, 
-			                   'content'     => Auth::user()->username.' absen keluar',
-			                   'created_at'  => date('Y-m-d H:i:s'),
-			                   'updated_at'  => date('Y-m-d H:i:s')]
-								);
 				} elseif ($absen->status == "masuk" && $tgl[0] != $today) {
 					$absen              = new Absen;
 					$absen->id_karyawan = $id_karyawan;
@@ -92,13 +87,6 @@ class dashboardController extends Controller
 			                   'updated_at'  => date('Y-m-d H:i:s')]
 								);
 				}
-			
-			\DB::table('logs')->insert([
-							   'id_karyawan' => $id_karyawan, 
-			                   'content'     => Auth::user()->username.' akses halaman dashboard',
-			                   'created_at'  => date('Y-m-d H:i:s'),
-			                   'updated_at'  => date('Y-m-d H:i:s')]
-								);
 
 			return view('dashboard/index')->with("absen",$absen)
 										  ->with("report",$report)
@@ -125,12 +113,6 @@ class dashboardController extends Controller
 			$note->id_karyawan = Auth::user()->id_karyawan;
 			$note->content     = \Input::get('content');
 			$note->save();
-			
-			\DB::table('logs')->insert([
-							   'id_karyawan' => Auth::user()->id_karyawan, 
-			                   'content'     => Auth::user()->username.' tambah catatan']
-								);
-
 			return \Redirect::to('dashboard');
 		} else {
 	    	return \Redirect::to('login');
@@ -150,13 +132,6 @@ class dashboardController extends Controller
 			$note          = Dashboard::find($id);
 			$note->content = \Input::get('content');
 			$note->save();
-
-			\DB::table('logs')->insert([
-							   'id_karyawan' => Auth::user()->id_karyawan, 
-			                   'content'     => Auth::user()->username.' tulis catatan',
-			                   'created_at'  => date('Y-m-d H:i:s'),
-			                   'updated_at'  => date('Y-m-d H:i:s')]
-								);
 
 			return \Redirect::to('dashboard');
 		} else {
@@ -181,13 +156,6 @@ class dashboardController extends Controller
 	    	$getNotice   = Notice::where("id_karyawan","=",$id_karyawan)
 								 ->where("tanggal","=",$today)
 								 ->get();
-
-			\DB::table('logs')->insert([
-							   'id_karyawan' => $id_karyawan, 
-			                   'content'     => Auth::user()->username.' akses halaman profile',
-			                   'created_at'  => date('Y-m-d H:i:s'),
-			                   'updated_at'  => date('Y-m-d H:i:s')]
-								);
 
 			return view('dashboard/profile')->with("data", $data)
 											->with("getNotice", $getNotice);
@@ -215,14 +183,7 @@ class dashboardController extends Controller
 			$date 					= explode("/", \Input::get('tanggal'));
 			$profile->ttl 			= $tempat.", ".$date[1]."-".$date[0]."-".$date[2];
 			$profile->save();
-			
-			\DB::table('logs')->insert([
-							   'id_karyawan' => $id, 
-			                   'content'     => Auth::user()->username.' update data profile',
-			                   'created_at'  => date('Y-m-d H:i:s'),
-			                   'updated_at'  => date('Y-m-d H:i:s')]
-								);
-
+	
 			return \Redirect::to('profile');
 		} else {
 	    	return \Redirect::to('login');

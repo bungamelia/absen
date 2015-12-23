@@ -36,13 +36,6 @@ class absenController extends Controller
 								 ->where("tanggal","=",$today)
 								 ->get();
 
-			\DB::table('logs')->insert([
-					             'id_karyawan' => $id_karyawan, 
-					             'content'     => Auth::user()->username.' akses halaman daftar absen',
-					             'created_at'  => date('Y-m-d H:i:s'),
-					             'updated_at'  => date('Y-m-d H:i:s')]
-					            );
-
 	        return view('absen/index')->with("absen",$absen)
 	        						  ->with("getNotice",$getNotice);
 	    } else {
@@ -74,18 +67,11 @@ class absenController extends Controller
 
 			$absen 				= new Absen;
 			$absen->id_karyawan = Auth::user()->id_karyawan;
-			$absen->id_shift    = "\Input::get('id_shift')";
+			$absen->id_shift    = \Input::get('id_shift');
 			//$absen->id_shift    = "4";
 			$absen->status      = "masuk";
 			$absen->save();
 
-			\DB::table('logs')->insert([
-					             'id_karyawan' => $id_karyawan, 
-					             'content'     => Auth::user()->username.' foto absen dan absen masuk',
-					             'created_at'  => date('Y-m-d H:i:s'),
-					             'updated_at'  => date('Y-m-d H:i:s')]
-					            );
-			
 			return \Redirect::to('dashboard');
 		} else {
 	    	return \Redirect::to('login');
@@ -122,13 +108,6 @@ class absenController extends Controller
 			$absen->id_shift    = \Input::get('id_shift');
 			$absen->status      = "keluar";
 			$absen->save();
-
-			\DB::table('logs')->insert([
-					             'id_karyawan' => $id, 
-					             'content'     => Auth::user()->username.' absen keluar',
-					             'created_at'  => date('Y-m-d H:i:s'),
-					             'updated_at'  => date('Y-m-d H:i:s')]
-					            );
 
 			return \Redirect::to('dashboard');
 		} else {
