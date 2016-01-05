@@ -31,11 +31,13 @@ class dashboardController extends Controller
     {
         if (Auth::check()) {
 			$id_karyawan = Auth::user()->id_karyawan;
+
 			$absen       = Absen::where("id_karyawan","=",$id_karyawan)
 						        ->orderBy("id_absen", "DESC")
 						        ->first();
 
 			$today       = date('Y-m-d');
+
 			$report      = Laporan::where("id_karyawan","=",$id_karyawan)
 							       ->where("tanggal","=",$today)
 							       ->first();
@@ -53,48 +55,61 @@ class dashboardController extends Controller
 							    ->first();
 
 			$yesterday   = date("Y-m-d", time()-86400);
+
 			$shiftKmrn   = Shift::join("shift","shift_line.id_shift","=","shift.id_shift")
 								->where("tanggal_shift","=",$yesterday)
 								->where("id_karyawan","=",$id_karyawan)
-								->first();
-
+								->first();			
+							    
 			$besok       = date("Y-m-d", time()+86400);
+
 			$shiftBesok  = Shift::join("shift","shift_line.id_shift","=","shift.id_shift")
 								     ->where("tanggal_shift","=",$besok)
 								     ->where("id_karyawan","=",$id_karyawan)
-								     ->first();
+								     ->first();	
 
-			$tgl         = explode(" ", $absen->created_at);
+			/**
+			* untuk mengecek $id_karyawan 
+			* masuk shift berapa
+			* @return string
+			*/
+			if( $shiftLine != null ):
+				$shiftname	= $shiftLine->nama_shift;
+			else:
+				$shiftname	= "Non Shift";
+			endif;		
+		
+			if( $absen != null ):
+				$tgl         = explode(" ", $absen->created_at);
 			
-				if ($absen->status == "masuk" && $tgl[0] == $yesterday) {
+				if ($absen->status == "masuk" && $tgl[0] == $yesterday):
+
 					$absen              = new Absen;
 					$absen->id_karyawan = $id_karyawan;
 					$absen->id_shift    = $shiftKmrn->id_shift;
 					$absen->status      = "keluar";
 					$absen->save();
 
-				} elseif ($absen->status == "masuk" && $tgl[0] != $today) {
+				elseif ($absen->status == "masuk" && $tgl[0] != $today):
+
 					$absen              = new Absen;
 					$absen->id_karyawan = $id_karyawan;
 					$absen->id_shift    = "4";
 					$absen->status      = "keluar";
 					$absen->save();
 
-					\DB::table('logs')->insert([
-							   'id_karyawan' => $id_karyawan, 
-			                   'content'     => Auth::user()->username.' absen keluar',
-			                   'created_at'  => date('Y-m-d H:i:s'),
-			                   'updated_at'  => date('Y-m-d H:i:s')]
-								);
-				}
+				endif;
 
+			endif;
+			
 			return view('dashboard/index')->with("absen",$absen)
 										  ->with("report",$report)
 										  ->with("note",$note)
 										  ->with("getNotice",$getNotice)
 										  ->with("shiftLine",$shiftLine)
 										  ->with("shiftKmrn",$shiftKmrn)
-										  ->with("shiftBesok",$shiftBesok);
+										  ->with("shiftBesok",$shiftBesok)
+										  ->with("shiftname",$shiftname);
 		} else {
 	    	return \Redirect::to('login');
 	    }

@@ -50,9 +50,12 @@ class loginController extends Controller
                     'content'     => Auth::user()->username.' melakukan login',
                 );
 
-                LogsModel::tulis($data);
-                    
-            return \Redirect::to('dashboard');
+                //LogsModel::tulis($data);
+            if(Auth::user()->id_karyawan == '1'):
+                return \Redirect::to('admin/dashboard');
+            else:
+                return \Redirect::to('dashboard');
+            endif;
         else:
 			return \Redirect::to('login');
 		endif;
@@ -111,13 +114,14 @@ class loginController extends Controller
     							 ->where("tanggal","=",$today)
     							 ->get();
 
+            /*
     		\DB::table('logs')->insert([
     	                       'id_karyawan' => Auth::user()->id_karyawan, 
     	                       'content'     => Auth::user()->username.' akses halaman pengaturan',
     	                       'created_at'  => date('Y-m-d H:i:s'),
     	                       'updated_at'  => date('Y-m-d H:i:s')]
                            	   );
-
+            */
     		return view('dashboard/pengaturan')->with("getNotice", $getNotice);
         else:
             return \Redirect::to('login');

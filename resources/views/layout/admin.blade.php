@@ -3,8 +3,8 @@
   * @author  Bunga A. Restuputri <bungamelia@hotmail.com>
   * @version $id dev 
   */
-	use App\Http\Controllers\laporan\models\laporanModel;
-	$today = date('Y-m-d');
+    use App\Http\Controllers\laporan\models\laporanModel;
+    $today = date('Y-m-d');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,10 +14,9 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>.:: MCS ::.</title>
-
-        <link href="resources/css/style.default.css" rel="stylesheet">
-        <link href="resources/css/select2.css" rel="stylesheet" />
+        <title>.:: MCS :: Admin Page</title>
+        <link href="{{url('resources/css/style.default.css')}}" rel="stylesheet">
+        <link href="{{url('resources/css/select2.css')}}" rel="stylesheet" />
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -25,14 +24,14 @@
         <script src="js/respond.min.js"></script>
         <![endif]-->
     </head>
-
     <body>
+
         
         <header>
             <div class="headerwrapper">
                 <div class="header-left">
                     <a href="/" class="logo">
-                        <img src="resources/images/logo-primary.png" alt="" width="120" height="30" /> 
+                        <img src="{{url('resources/images/logo-primary.png')}}" alt="" width="120" height="30" /> 
                     </a>
                     <div class="pull-right">
                         <a href="" class="menu-collapse">
@@ -59,10 +58,10 @@
                         
                         <div class="btn-group btn-group-option">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-							@if (Auth::check())
-								{{ Auth::user()->nama_karyawan }}
-								<i class="fa fa-caret-down"></i>
-							@endif
+                            @if (Auth::check())
+                                {{ Auth::user()->nama_karyawan }}
+                                <i class="fa fa-caret-down"></i>
+                            @endif
                             </button>
                             <ul class="dropdown-menu pull-right" role="menu">
                               <li><a href="{{ url('profile') }}"><i class="glyphicon glyphicon-user"></i> My Profile</a></li>
@@ -80,56 +79,72 @@
                 
             </div><!-- headerwrapper -->
         </header>
-        
         <section>
-			<div class="mainwrapper">
-				<div class="leftpanel">
-					<!-- <div class="media profile-left"></div>media -->
-					
-					<h5 class="leftpanel-title">Navigation</h5>
-					<ul class="nav nav-pills nav-stacked">
-						<li @if (Request::is('dashboard*')) class="active" @endif><a href="{{ url('dashboard') }}"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
-						<li @if (Request::is('absen*')) class="active" @endif><a href="{{ url('absen') }}"><i class="fa fa-check-square"></i> <span>Absen</span></a></li>
-						<li @if (Request::is('laporan*')) class="active" @endif><a href="{{ url('laporan') }}"><i class="fa fa-tasks"></i> <span>Laporan</span></a></li>
-						<li @if (Request::is('pengumuman*')) class="active" @endif><a href="{{ url('pengumuman') }}">
-						@if (count($getNotice) > "0")
-						<span class="pull-right badge">{{ count($getNotice) }}</span>
-						@endif
-						<i class="fa fa-bookmark"></i> <span>Pengumuman</span></a></li>
-						<li @if (Request::is('shift*')) class="active" @endif><a href="{{ url('shift') }}"><i class="fa fa-calendar-o"></i> <span>Jadwal Shift</span></a></li>
-						<li @if (Request::is('pengaturan*')) class="active" @endif><a href="{{ url('pengaturan') }}"><i class="fa fa-cogs"></i> <span>Pengaturan</span></a></li>
-					</ul>
-				</div><!-- leftpanel -->
-				
-				@yield('content')
-			</div><!-- mainwrapper -->
-        </section>
-		
-		@yield('modals')
-		
-        <script src="resources/js/jquery-1.11.1.min.js"></script>
-        <script src="resources/js/jquery-migrate-1.2.1.min.js"></script>
-        <script src="resources/js/jquery-ui-1.10.3.min.js"></script>
-        <script src="resources/js/bootstrap.min.js"></script>
-        <script src="resources/js/modernizr.min.js"></script>
-        <script src="resources/js/pace.min.js"></script>
-        <script src="resources/js/retina.min.js"></script>
-        <script src="resources/js/jquery.cookies.js"></script>
+            <div class="mainwrapper">
+                <div class="leftpanel">
 
-        <script src="resources/js/ckeditor/ckeditor.js"></script>
-        <script src="resources/js/ckeditor/adapters/jquery.js"></script>
-        <script src="resources/js/select2.min.js"></script>
+                    <h5 class="leftpanel-title">Navigation</h5>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li>
+                            <a href="{{ url('admin/dashboard') }}">
+                                <i class="fa fa-home"></i> 
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('admin/absen') }}">
+                                <i class="fa fa-users"></i> 
+                                <span>Absen</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('admin/karyawan') }}">
+                                <i class="fa fa-users"></i> 
+                                <span>Karyawan</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('admin/shift') }}">
+                                <i class="fa fa-users"></i> 
+                                <span>Shift</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('admin/pengumuman') }}">
+                                <i class="fa fa-users"></i> 
+                                <span>Pengumuman</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div><!-- leftpanel -->
+                
+                @yield('content')
+            </div><!-- mainwrapper -->
+        </section>    
 
-		<script src="resources/js/custom.js"></script>
-		@yield('script')
-		
         
-        <script>
+        <script src="{{url('resources/js/jquery-1.11.1.min.js')}}"></script>
+        <script src="{{url('resources/js/jquery-migrate-1.2.1.min.js')}}"></script>
+        <script src="{{url('resources/js/jquery-ui-1.10.3.min.js')}}"></script>
+        <script src="{{url('resources/js/bootstrap.min.js')}}"></script>
+        <script src="{{url('resources/js/modernizr.min.js')}}"></script>
+        <script src="{{url('resources/js/pace.min.js')}}"></script>
+        <script src="{{url('resources/js/retina.min.js')}}"></script>
+        <script src="{{url('resources/js/jquery.cookies.js')}}"></script>
+
+        <script src="{{url('resources/js/ckeditor/ckeditor.js')}}"></script>
+        <script src="{{url('resources/js/ckeditor/adapters/jquery.js')}}"></script>
+        <script src="{{url('resources/js/select2.min.js')}}"></script>
+
+        <script src="{{url('resources/js/custom.js')}}"></script>
+                <script>
+            
             jQuery(document).ready(function(){
               jQuery('#BuatLaporan').ckeditor();
               jQuery('#EditLaporan').ckeditor();
               jQuery('#Catatan').ckeditor();
               jQuery('#datepicker').datepicker();
+              jQuery("select").select2();
             });
             function updTime() {
                 var f = new Date();

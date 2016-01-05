@@ -1,4 +1,8 @@
 <?php
+/**
+  * @author  Bunga A. Restuputri <bungamelia@hotmail.com>
+  * @version $id dev 
+  */
 	use App\Http\Controllers\laporan\models\laporanModel;
 ?>
 @extends('layout/template')
@@ -30,7 +34,7 @@
 							<div class="media-body">
 								<h5 class="md-title nomargin">Absensi</h5>
 								<h1 class="mt5">
-									@if ($absen->status == "keluar")
+									@if ($absen == null || $absen->status == "keluar")
 									<a href="#" class="btn btn-primary btn-metro" data-toggle="modal" data-target=".AbsenMasuk">
 										Absen Masuk
 									</a>
@@ -40,37 +44,44 @@
 									</a>
 									@endif									
 									@if (empty($report))
-									<a href="#" class="btn btn-primary btn-metro" data-toggle="modal" data-target=".BuatLaporan">
-										Buat Laporan
-									</a>									
+										<a href="#" class="btn btn-primary btn-metro" data-toggle="modal" data-target=".BuatLaporan">
+											Buat Laporan
+										</a>
+									@else
+										<a href="#" class="btn btn-primary btn-metro" data-toggle="modal" data-target=".EditLaporan">
+											Edit Laporan
+										</a>																		
 									@endif
-									<a href="#" class="btn btn-primary btn-metro" data-toggle="modal" data-target=".EditLaporan">
-										Edit Laporan
-									</a>
 								</h1>
 							</div><!-- media-body -->
 							<hr>
 							<div class="clearfix mt20">
 								<div class="pull-left">
 									<h5 class="md-title nomargin">Absen Terakhir</h5>
-									<h4 class="nomargin">{{ laporanModel::tgl_indo($absen->created_at)}}</h4>
+									<h4 class="nomargin">
+										@if($absen == null)
+											No Data
+										@else
+											{{ $absen->created_at }}
+										@endif
+									</h4>
 								</div>
 								<div class="pull-right">
 									<h5 class="md-title nomargin">&#160;</h5>
-									<h4 class="nomargin">{{ laporanModel::jam($absen->created_at)}}</h4>
+									<h4 class="nomargin"></h4>
 								</div>
 							</div>
 						</div><!-- panel-body -->
 					</div><!-- panel -->
 				</div><!-- col-md-6 -->
-				
+				@if($shiftname != "Non Shift")
 				<div class="col-md-6">
 					<div class="panel panel-primary noborder">
 						<div class="panel-heading noborder">
 							<div class="panel-icon"><i class="fa fa-users"></i></div>
 							<div class="media-body">
 								<h5 class="md-title nomargin">Jadwal Shift</h5>
-								<h1 class="mt5">@if (empty($shiftLine)) Libur @else {{ $shiftLine->nama_shift }} @endif
+								<h1 class="mt5"> -
 									<a href="{{ url('shift') }}" class="btn btn-success btn-metro">
 										Jadwal Lengkap
 									</a></h1>
@@ -79,17 +90,17 @@
 							<div class="clearfix mt20">
 								<div class="pull-left">
 									<h5 class="md-title nomargin">Kemarin</h5>
-									<h4 class="nomargin">@if (empty($shiftKmrn)) Libur @else {{ $shiftKmrn->nama_shift }} @endif</h4>
+									<h4 class="nomargin">-</h4>
 								</div>
 								<div class="pull-right">
 									<h5 class="md-title nomargin">Besok</h5>
-									<h4 class="nomargin">@if (empty($shiftBesok)) Libur @else {{ $shiftBesok->nama_shift }} @endif</h4>
+									<h4 class="nomargin">-</h4>
 								</div>
 							</div>
 						</div><!-- panel-body -->
 					</div><!-- panel -->
 				</div><!-- col-md-6 -->
-				
+				@endif
 			</div><!-- row -->
 			
 			<div class="panel panel-default">
@@ -105,16 +116,6 @@
 					{{ csrf_field() }}
 						<div class="form-group">
 							<textarea id="Catatan" name="content" class="form-control" rows="10"></textarea>
-						</div>
-						<div class="form-group">
-							<input type="submit" class="btn btn-metro btn-success" value="Simpan">
-						</div>
-					</form>
-					@else
-					<form method="POST" action="<?php echo "catatan/".$note->id."/edit"; ?>">
-					{{ csrf_field() }}
-						<div class="form-group">
-							<textarea id="Catatan" name="content" class="form-control" rows="10">{{ htmlentities($note->content) }}</textarea>
 						</div>
 						<div class="form-group">
 							<input type="submit" class="btn btn-metro btn-success" value="Simpan">

@@ -163,6 +163,7 @@
                     </form>
 				</div>
 				<div class="col-sm-6">
+				@if($req != null)
 					<table class="table table-striped table-bordered table-condensed">
 						<?php
 							$data = explode(" - ", $req->shift_lama);
@@ -184,7 +185,8 @@
 							<td>Status</td>
 							<td>{{ $req->status }}</td>
 						</tr>
-					</table>	
+					</table>
+				@endif	
 				</div>
 			</div>
 		  </div>		  

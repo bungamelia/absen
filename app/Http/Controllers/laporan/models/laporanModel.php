@@ -1,4 +1,8 @@
 <?php
+/**
+  * @author  Bunga A. Restuputri <bungamelia@hotmail.com>
+  * @version $id dev 
+  */
 
 namespace App\Http\Controllers\laporan\models;
 
