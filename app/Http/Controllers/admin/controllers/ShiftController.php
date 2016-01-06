@@ -49,7 +49,6 @@ class ShiftController extends Controller
 
   public function postgenerator()
   {
-    print_r($_POST);
     $dari         = \Input::get('dari');
     $id_karyawan  = \Input::get('id_karyawan');
     $sampai       = \Input::get('sampai');
@@ -57,7 +56,7 @@ class ShiftController extends Controller
 
     $dariMysql      = Shift::ExplodeDate($dari,'hari')."/".Shift::ExplodeDate($dari,'bulan')."/".Shift::ExplodeDate($dari,'tahun');
     $sampaiMysql    = Shift::ExplodeDate($sampai,'hari')."/".Shift::ExplodeDate($sampai,'bulan')."/".Shift::ExplodeDate($sampai,'tahun');
-    $datePeriod   = Shift::returnDates($dariMysql, $sampaiMysql);
+    $datePeriod     = Shift::returnDates($dariMysql, $sampaiMysql);
       foreach($datePeriod as $date):
         $data           = [
                             "id_shift"      => $id_shift,
