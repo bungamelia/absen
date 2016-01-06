@@ -46,9 +46,9 @@ Route::group(
 		    		'admin\controllers\AbsenController@index'
 		    		);
 	    		Route::post(
-		    		'absen/cari',
+		    		'absen',
 		    		'admin\controllers\AbsenController@cariAbsen'
-	    		);	    	
+	    		);	
 		    	Route::get(
 		    		'pengumuman',
 		    		'admin\controllers\PengumumanController@index'

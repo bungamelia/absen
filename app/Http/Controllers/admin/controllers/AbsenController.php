@@ -46,7 +46,7 @@ class AbsenController extends Controller
       $shifts   = Shift::shift();
       $cariAbsen    = Absen::where("id_karyawan", "=", \Input::get('karyawan'))
                        ->where("id_shift", "=", \Input::get('shift'))
-                       ->orwhere("status", "=", \Input::get('tipe'))
+                       ->where("status", "=", \Input::get('tipe'))
                        ->get();
       return view('admin/absen/absen')->with("cariAbsen",$cariAbsen)
                                       ->with("karyawan",$karyawan)

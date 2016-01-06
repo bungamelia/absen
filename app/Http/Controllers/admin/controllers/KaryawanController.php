@@ -85,7 +85,7 @@ class KaryawanController extends Controller
         //
     $user                 = new Karyawan;
     $user->nama_karyawan  = \Input::get('name');
-    $user->jkelamin       = \Input::get('jkelamin');
+    $user->id_jkelamin    = \Input::get('jkelamin');
     $user->alamat         = \Input::get('alamat');
     $tgl                  = explode("/", \Input::get('tanggal'));
     $user->ttl            = \Input::get('tempat').", ".$tgl[2]."-".$tgl[0]."-".$tgl[1];
