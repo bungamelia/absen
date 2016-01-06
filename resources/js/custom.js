@@ -2,6 +2,10 @@ jQuery(document).ready(function() {
    
    "use strict";
    
+   // datepicker
+   jQuery('#Dari').datepicker();
+   jQuery('#Sampai').datepicker();
+
    // Tooltip
    jQuery('.tooltips').tooltip({ container: 'body'});
    

@@ -36,10 +36,18 @@ Route::group(
 		    	Route::get(
 		    		'pengumuman',
 		    		'admin\controllers\PengumumanController@index'
-		    		);		    	
+		    		);			    	
 		    	Route::get(
 		    		'shift',
 		    		'admin\controllers\ShiftController@index'
+		    		);		    	
+		    	Route::get(
+		    		'shift/generator',
+		    		'admin\controllers\ShiftController@generator'
+		    		);		    	
+		    	Route::post(
+		    		'shift/generator',
+		    		'admin\controllers\ShiftController@postgenerator'
 		    		);
 		    }
     );

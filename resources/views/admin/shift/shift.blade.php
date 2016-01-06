@@ -9,9 +9,13 @@
 			<div class="media-body">
 				<ul class="breadcrumb">
 					<li><a href=""><i class="glyphicon glyphicon-home"></i></a></li>
-					<li>Karyawan</li>
+					<li>Shift</li>
 				</ul>
-				<h4>----</h4>
+				<h4>Daftar Shift 
+					<div class="btn-group" role="group" aria-label="...">
+					  <a href="{{ url('admin/shift/generator') }}" class="btn btn-sm btn-default">Generate Shift</a>
+					</div>
+				</h4>
 			</div>
 		</div><!-- media -->
 	</div><!-- pageheader -->

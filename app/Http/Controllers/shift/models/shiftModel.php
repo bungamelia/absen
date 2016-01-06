@@ -29,5 +29,29 @@ class shiftModel extends Model
 					->get();
 		return $data;
 	}
-	
+
+	public static function ExplodeDate($date,$output)
+	{
+		$data 	= explode("/",$date);
+		if($output == 'bulan'):
+			return $data['0'];
+		elseif($output == 'tahun'):
+			return $data['2'];
+		elseif($output == 'hari'):
+			return $data['1'];
+		else:
+			return $date;
+		endif;
+	}
+
+	public static function returnDates($fromdate, $todate) 
+	{
+		    $fromdate 		= \DateTime::createFromFormat('d/m/Y', $fromdate);
+		    $todate 		= \DateTime::createFromFormat('d/m/Y', $todate);
+		    return new \DatePeriod(
+		        $fromdate,
+		        new \DateInterval('P1D'),
+		        $todate->modify('+1 day')
+	    );
+	}
 }

@@ -30,75 +30,102 @@
                 </div>                   
             </div><!-- col-sm-4 -->
         </div>
-		<table class="table table-striped table-bordered table-condensed">
-			<tr>
-				<td colspan="7" align=center><b>december 2001</b></td>
-			</tr>
+		<?php
+$month 	= date('m');
+$year 	= date('Y');
+// Draw table for Calendar 
+	$calendar = '
+<table class="table table-striped table-bordered table-condensed calendar">';
 
-			<tr>
-				<td colspan="7" align=center><i>another year comes to an end</i></td>
-			</tr>
+	// Draw Calendar table headings 
+	$headings = array('Minggu','Senin','Selasa','Rabu','Kamis','Jum\'at','Sabtu');
+	$calendar.= '
+<tr class="calendar-row">
+<td class="calendar-day-head">'.implode('</td>
+<td class="calendar-day-head">',$headings).'</td>
+</tr>
+';
 
-			<tr>
-				<td align=center>sun</td>
-				<td align=center>mon</td>
-				<td align=center>tue</td>
-				<td align=center>wed</td>
-				<td align=center>thu</td>
-				<td align=center>fri</td>
-				<td align=center>sat</td>
-			</tr>
+	//days and weeks variable for now ... 
+	$running_day = date('w',mktime(0,0,0,$month,1,$year));
+	$days_in_month = date('t',mktime(0,0,0,$month,1,$year));
+	$days_in_this_week = 1;
+	$day_counter = 0;
+	$dates_array = array();
 
-			<tr>
-				<td align=center></td>
-				<td align=center></td>
-				<td align=center></td>
-				<td align=center></td>
-				<td align=center></td>
-				<td align=center></td>
-				<td align=center>1</td>
-			</tr>
+	// row for week one 
+	$calendar.= '
+<tr class="calendar-row">';
 
-			<tr>
-				<td align=center>2</td>
-				<td align=center>3</td>
-				<td align=center>4</td>
-				<td align=center>5</td>
-				<td align=center>6</td>
-				<td align=center>7</td>
-				<td align=center>8</td>
-			</tr>
+	// Display "blank" days until the first of the current week 
+	for($x = 0; $x < $running_day; $x++):
+		$calendar.= '
+<td class="calendar-day-np"> </td>
+';
+		$days_in_this_week++;
+	endfor;
 
-			<tr>
-				<td align=center>9</td>
-				<td align=center>10</td>
-				<td align=center>11</td>
-				<td align=center>12</td>
-				<td align=center>13</td>
-				<td align=center>14</td>
-				<td align=center>15</td>
-			</tr>
+	// Show days.... 
+	for($list_day = 1; $list_day <= $days_in_month; $list_day++):
+		if($list_day==date('d') && $month==date('n'))
+		{
+			$currentday='currentday';
+		}else
+		{
+			$currentday='';
+		}
+		$calendar.= '
+<td class="calendar-day '.$currentday.'">';
+		
+			// Add in the day number
+			if($list_day<date('d') && $month==date('n'))
+			{
+				$showtoday='<strong class="overday">'.$list_day.'</strong>';
+			}else
+			{
+				$showtoday=$list_day;
+			}
+			$calendar.= '
+<div class="day-number">'.$showtoday.'</div>
+';
 
-			<tr>
-				<td align=center>16</td>
-				<td align=center>17</td>
-				<td align=center>18</td>
-				<td align=center>19</td>
-				<td align=center>20</td>
-				<td align=center>21</td>
-				<td align=center>22</td>
-			</tr>
+		// Draw table end
+		$calendar.= '</td>
+';
+		if($running_day == 6):
+			$calendar.= '</tr>
+';
+			if(($day_counter+1) != $days_in_month):
+				$calendar.= '
+<tr class="calendar-row">';
+			endif;
+			$running_day = -1;
+			$days_in_this_week = 0;
+		endif;
+		$days_in_this_week++; $running_day++; $day_counter++;
+	endfor;
 
-			<tr>
-				<td align=center>23</td>
-				<td align=center>24</td>
-				<td align=center>25</td>
-				<td align=center>26</td>
-				<td align=center>27</td>
-				<td align=center>28</td>
-				<td align=center>29</td>
-			</tr>
-		</table>
+	// Finish the rest of the days in the week
+	if($days_in_this_week < 8):
+		for($x = 1; $x <= (8 - $days_in_this_week); $x++):
+			$calendar.= '
+<td class="calendar-day-np"> </td>
+';
+		endfor;
+	endif;
+
+	// Draw table final row
+	$calendar.= '</tr>
+';
+
+	// Draw table end the table 
+	$calendar.= '</table>
+';
+	
+	// Finally all done, return result 
+	echo $calendar;
+
+		?>
 		
 	</div><!-- contentpanel -->
 	
