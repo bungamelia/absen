@@ -40,32 +40,40 @@ class ShiftController extends Controller
 
   public function generator()
   {
-      $employees  = Karyawan::all();
-      $shifts      = Shift::shift();
-      return view('admin/shift/generator')
-                  ->with("employees",$employees)
-                  ->with("shifts",$shifts);
+    if (Auth::check() && Auth::user()->id_karyawan == '1'):
+        $employees  = Karyawan::all();
+        $shifts      = Shift::shift();
+        return view('admin/shift/generator')
+                    ->with("employees",$employees)
+                    ->with("shifts",$shifts);
+    else:
+      return view('errors/403');
+    endif;
   }
 
   public function postgenerator()
   {
-    $dari         = \Input::get('dari');
-    $id_karyawan  = \Input::get('id_karyawan');
-    $sampai       = \Input::get('sampai');
-    $id_shift     = \Input::get('id_shift');
+    if (Auth::check() && Auth::user()->id_karyawan == '1'):
+      $dari         = \Input::get('dari');
+      $id_karyawan  = \Input::get('id_karyawan');
+      $sampai       = \Input::get('sampai');
+      $id_shift     = \Input::get('id_shift');
 
-    $dariMysql      = Shift::ExplodeDate($dari,'hari')."/".Shift::ExplodeDate($dari,'bulan')."/".Shift::ExplodeDate($dari,'tahun');
-    $sampaiMysql    = Shift::ExplodeDate($sampai,'hari')."/".Shift::ExplodeDate($sampai,'bulan')."/".Shift::ExplodeDate($sampai,'tahun');
-    $datePeriod     = Shift::returnDates($dariMysql, $sampaiMysql);
-      foreach($datePeriod as $date):
-        $data           = [
-                            "id_shift"      => $id_shift,
-                            "id_karyawan"   => $id_karyawan,
-                            "tanggal_shift" => $date->format('Y-m-d'),
-                            ];
-        Shift::insert($data);
-      endforeach;
-      return \Redirect::to('admin/shift/generator');
+      $dariMysql      = Shift::ExplodeDate($dari,'hari')."/".Shift::ExplodeDate($dari,'bulan')."/".Shift::ExplodeDate($dari,'tahun');
+      $sampaiMysql    = Shift::ExplodeDate($sampai,'hari')."/".Shift::ExplodeDate($sampai,'bulan')."/".Shift::ExplodeDate($sampai,'tahun');
+      $datePeriod     = Shift::returnDates($dariMysql, $sampaiMysql);
+        foreach($datePeriod as $date):
+          $data           = [
+                              "id_shift"      => $id_shift,
+                              "id_karyawan"   => $id_karyawan,
+                              "tanggal_shift" => $date->format('Y-m-d'),
+                              ];
+          Shift::insert($data);
+        endforeach;
+        return \Redirect::to('admin/shift/generator');
+    else:
+      return view('errors/403');
+    endif;
     //return view('admin/shift/generator');
   }
 }
