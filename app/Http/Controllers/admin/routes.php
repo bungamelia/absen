@@ -30,7 +30,7 @@ Route::group(
 		    		'admin\controllers\KaryawanController@index'
 		    		);
 		    	Route::post(
-		    		'karyawan/cari',
+		    		'karyawan',
 		    		'admin\controllers\KaryawanController@cariKaryawan'
 	    		);
 	    		Route::get(

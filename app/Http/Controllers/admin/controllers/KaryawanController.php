@@ -1,6 +1,7 @@
 <?php
 /**
   * @author  Angga Purnama <angga.purnama@mcs.co.id>
+  * @contributor  Bunga A. Restuputri <bungamelia@hotmail.com>
   * @package App\Http\Controllers\admin\controllers
   * @version $id dev 
   */

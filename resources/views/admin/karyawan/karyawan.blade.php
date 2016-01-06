@@ -27,7 +27,7 @@ use App\Http\Controllers\karyawan\models\KaryawanModel as Employee;
 		
 		<div class="panel panel-default">
             <div class="panel-body">
-                <form method="POST" action="{{ url('admin/karyawan/cari') }}" class="form-inline ">
+                <form method="POST" action="{{ url('admin/karyawan') }}" class="form-inline ">
                 	{!! csrf_field() !!}
 					<div class="form-group form-group-sm">
 						<select id="select-basic" data-placeholder="Divisi" class="width300" name="divisi" class="form-control" >
