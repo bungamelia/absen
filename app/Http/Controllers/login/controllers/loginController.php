@@ -84,20 +84,6 @@ class loginController extends Controller
 		return view('dashboard/register');
     } 
 	
-	/*public function store(Request $request)
-    {
-        //
-		$user = new loginModel;
-		$user->name = \Input::get('name');
-		$user->username = \Input::get('username');
-		$user->email = \Input::get('email');
-		$pass = \Input::get('password');
-		$user->password = bcrypt($pass);
-		$user->save();
-		
-		return \Redirect::to('dashboard');
-    }*/
-	
 	
     /**
      * Tampil halaman pengaturan ganti password.

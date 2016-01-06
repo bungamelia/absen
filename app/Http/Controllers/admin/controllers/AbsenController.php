@@ -37,4 +37,22 @@ class AbsenController extends Controller
       return view('errors/403');
     endif;
 	}
+
+
+  public function cariAbsen()
+  {
+    if (Auth::check() && Auth::user()->id_karyawan == '1'):
+      $karyawan = Karyawan::get();
+      $shifts   = Shift::shift();
+      $cariAbsen    = Absen::where("id_karyawan", "=", \Input::get('karyawan'))
+                       ->where("id_shift", "=", \Input::get('shift'))
+                       ->orwhere("status", "=", \Input::get('tipe'))
+                       ->get();
+      return view('admin/absen/absen')->with("cariAbsen",$cariAbsen)
+                                      ->with("karyawan",$karyawan)
+                                      ->with("shifts",$shifts);
+    else:
+      return view('errors/403');
+    endif;
+  }
 }

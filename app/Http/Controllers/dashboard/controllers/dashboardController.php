@@ -46,8 +46,8 @@ class dashboardController extends Controller
 								    ->first();
 
 			$getNotice   = Notice::where("id_karyawan","=",$id_karyawan)
-								          ->where("tanggal","=",$today)
-										  ->get();
+						          ->where("tanggal","=",$today)
+								  ->get();
 
 			$shiftLine   = Shift::join("shift","shift_line.id_shift","=","shift.id_shift")
 							    ->where("tanggal_shift","=",$today)

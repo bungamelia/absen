@@ -28,10 +28,10 @@ class AdminController extends Controller
   		$absen 		= Absen::all();
   		$laporan	= Laporan::all();
   		$shift 		= Shift::all();
-          return view('admin/index')
-          			->with("absen",$absen)
-          			->with("laporan",$laporan)
-          			->with("shift",$shift);
+      return view('admin/index')
+      			->with("absen",$absen)
+      			->with("laporan",$laporan)
+      			->with("shift",$shift);
     else:
       return view('errors/403');
     endif;

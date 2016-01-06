@@ -28,19 +28,35 @@ Route::group(
 		    	Route::get(
 		    		'karyawan',
 		    		'admin\controllers\KaryawanController@index'
-		    		);		    	
+		    		);
+		    	Route::post(
+		    		'karyawan/cari',
+		    		'admin\controllers\KaryawanController@cariKaryawan'
+	    		);
+	    		Route::get(
+		    		'karyawan/register',
+		    		'admin\controllers\KaryawanController@register'
+		    		);
+		    	Route::post(
+		    		'karyawan/register',
+		    		'admin\controllers\KaryawanController@store'
+		    		);			    	
 		    	Route::get(
 		    		'absen',
 		    		'admin\controllers\AbsenController@index'
-		    		);		    	
+		    		);
+	    		Route::post(
+		    		'absen/cari',
+		    		'admin\controllers\AbsenController@cariAbsen'
+	    		);	    	
 		    	Route::get(
 		    		'pengumuman',
 		    		'admin\controllers\PengumumanController@index'
-		    		);			    	
+		    		);		    	
 		    	Route::get(
 		    		'shift',
 		    		'admin\controllers\ShiftController@index'
-		    		);		    	
+		    		);
 		    	Route::get(
 		    		'shift/generator',
 		    		'admin\controllers\ShiftController@generator'

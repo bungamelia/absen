@@ -5,6 +5,7 @@
   */
 use App\Http\Controllers\shift\models\shiftModel as Shift;
 use App\Http\Controllers\karyawan\models\KaryawanModel as Employee;
+use App\Http\Controllers\laporan\models\laporanModel as Laporan;
 ?>
 @extends('layout/admin')
 @section('content')
@@ -25,36 +26,40 @@ use App\Http\Controllers\karyawan\models\KaryawanModel as Employee;
 	</div><!-- pageheader -->
 	
 	<div class="contentpanel">
-
 		<div class="panel panel-default">
-		<form method="get" action="" class="form-inline ">
-			<div class="form-group form-group-sm">
-				<label>Nama Karyawan</label>
-				<select name="karyawan" class="form-control" >
-					@foreach($karyawan as $employee)
-						<option value="{{$employee->id_karyawan}}">{{$employee->nama_karyawan}}</option>
-					@endforeach
-				</select>
-			</div>
-			<div class="form-group form-group-sm">
-				<label>Shift</label>
-				<select name="shift" class="form-control">
-					@foreach($shifts as $shift)
-						<option value="{{$shift->id_shift}}">{{$shift->nama_shift}}</option>
-					@endforeach
-				</select>
-			</div>
-			<div class="form-group form-group-sm">
-				<label>Tipe</label>
-				<select name="tipe" class="form-control">
-					<option value="masuk">Masuk</option>
-					<option value="keluar">Keluar</option>
-				</select>
-			</div>
-			<button type="submit" class="btn btn-default">Send invitation</button>
-		</form>
-		</div>
+            <div class="panel-body">
+                <form method="POST" action="{{ url('admin/absen/cari') }}" class="form-inline ">
+                	{!! csrf_field() !!}
+					<div class="form-group form-group-sm">
+						<select id="select-basic" data-placeholder="Nama Karyawan" class="width300" name="karyawan" class="form-control" >
+							<option value="">Nama Karyawan</option>
+							@foreach($karyawan as $employee)
+								<option value="{{$employee->id_karyawan}}">{{$employee->nama_karyawan}}</option>
+							@endforeach
+						</select>
+					</div>
+					<div class="form-group form-group-sm">
+						<select id="select-basic" data-placeholder="Shift" class="width300" name="shift" class="form-control">
+							<option value="">Shift</option>
+							@foreach($shifts as $shift)
+								<option value="{{$shift->id_shift}}">{{$shift->nama_shift}}</option>
+							@endforeach
+						</select>
+					</div>
+					<div class="form-group form-group-sm">
+						<select id="select-basic" data-placeholder="Tipe" name="tipe" class="width300" >
+							<option value="">Tipe</option>
+							<option value="masuk">Masuk</option>
+							<option value="keluar">Keluar</option>
+						</select>
+					</div>
+					<button type="submit" class="btn btn-default" name="search">Cari</button>
+				</form>
+            </div><!-- panel-body -->
+        </div><!-- panel -->
+		
 		<div class="panel panel-default">
+			@if (!isset($_POST['search']))
 			<table class="table table-striped table-bordered table-condensed">
 				<thead>
 					<tr>
@@ -72,8 +77,11 @@ use App\Http\Controllers\karyawan\models\KaryawanModel as Employee;
 						<td>{{ Employee::nama_karyawan($value->id_karyawan) }}</td>
 						<td>{{ Shift::nama_shift($value->id_shift) }}</td>
 						<td>{{ $value->status }}</td>
-						<td>{{ $value->created_at }}</td>
-						<td>{{ $value->created_at }}</td>
+						<td>{{ Laporan::tgl_indo($value->created_at) }}</td>
+						<?php 
+							$jam = explode(" ", $value->created_at);
+						?>
+						<td>{{ $jam[1] }}</td>
 						<td>
 							<a href="">
 								Photo
@@ -83,6 +91,39 @@ use App\Http\Controllers\karyawan\models\KaryawanModel as Employee;
 				@endforeach
 				</tbody>
 			</table>
+			@else
+			<table class="table table-striped table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th>Nama</th>
+						<th>Shift</th>
+						<th>Tipe</th>
+						<th>Tanggal</th>
+						<th>Jam</th>
+						<th>Poto</th>
+					</tr>
+				</thead>
+				<tbody>
+				@foreach($cariAbsen as $value)
+					<tr>
+						<td>{{ Employee::nama_karyawan($value->id_karyawan) }}</td>
+						<td>{{ Shift::nama_shift($value->id_shift) }}</td>
+						<td>{{ $value->status }}</td>
+						<td>{{ Laporan::tgl_indo($value->created_at) }}</td>
+						<?php 
+							$jam = explode(" ", $value->created_at);
+						?>
+						<td>{{ $jam[1] }}</td>
+						<td>
+							<a href="">
+								Photo
+							</a>
+						</td>
+					</tr>
+				@endforeach
+				</tbody>
+			</table>
+			@endif
 		</div>
 	</div><!-- contentpanel -->
 	

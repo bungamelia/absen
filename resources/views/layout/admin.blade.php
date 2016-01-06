@@ -137,7 +137,7 @@
         <script src="{{url('resources/js/select2.min.js')}}"></script>
 
         <script src="{{url('resources/js/custom.js')}}"></script>
-                <script>
+        <script>
             
             jQuery(document).ready(function(){
               jQuery('#BuatLaporan').ckeditor();
@@ -145,7 +145,17 @@
               jQuery('#Catatan').ckeditor();
               jQuery('#datepicker').datepicker();
               jQuery("select").select2();
+
+              // Select2
+              jQuery("#select-basic, #select-multi").select2();
+              jQuery('#select-search-hide').select2({
+                minimumResultsForSearch: -1
+              });
+
+              jQuery('select option:first-child').text('');
             });
+
+
             function updTime() {
                 var f = new Date();
                 document.getElementById('local').innerHTML =  f.toLocaleTimeString();

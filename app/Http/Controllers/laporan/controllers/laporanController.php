@@ -73,13 +73,6 @@ class laporanController extends Controller
 				}
 
 			$report->save();
-			
-			\DB::table('logs')->insert([
-							   'id_karyawan' => Auth::user()->id_karyawan, 
-			                   'content'     => Auth::user()->username.' input data laporan hari ini',
-			                   'created_at'  => date('Y-m-d H:i:s'),
-			                   'updated_at'  => date('Y-m-d H:i:s')]
-								);
 
 			return \Redirect::to('laporan');
 		} else {
@@ -99,16 +92,15 @@ class laporanController extends Controller
         if (Auth::check()) {
 			$report 		 = Laporan::find($id_laporan);
 			$report->content = \Input::get('content');
-			$report->state   = "Publish";
+			$draft               = \Input::get('draft');
+			$publish             = \Input::get('publish');
+
+				if (empty($draft)) {
+					$report->state = "Publish";
+				} 
+
 			$report->save();
 			
-			\DB::table('logs')->insert([
-							   'id_karyawan' => Auth::user()->id_karyawan, 
-			                   'content'     => Auth::user()->username.' edit data laporan hari ini',
-			                   'created_at'  => date('Y-m-d H:i:s'),
-			                   'updated_at'  => date('Y-m-d H:i:s')]
-								);
-
 			return \Redirect::to('laporan');
 		} else {
 	    	return \Redirect::to('login');

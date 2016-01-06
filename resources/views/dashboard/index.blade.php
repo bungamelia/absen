@@ -3,7 +3,7 @@
   * @author  Bunga A. Restuputri <bungamelia@hotmail.com>
   * @version $id dev 
   */
-	use App\Http\Controllers\laporan\models\laporanModel;
+	use App\Http\Controllers\laporan\models\laporanModel as Laporan;
 ?>
 @extends('layout/template')
 @section('content')
@@ -62,13 +62,22 @@
 										@if($absen == null)
 											No Data
 										@else
-											{{ $absen->created_at }}
+											{{ Laporan::tgl_indo($absen->created_at) }}
 										@endif
 									</h4>
 								</div>
 								<div class="pull-right">
 									<h5 class="md-title nomargin">&#160;</h5>
-									<h4 class="nomargin"></h4>
+									<h4 class="nomargin">
+
+										@if($absen == null)
+											No Data
+										@else
+										<?php
+											$jam = explode(" ", $absen->created_at);
+										?>
+											{{ $jam[1] }}
+										@endif</h4>
 								</div>
 							</div>
 						</div><!-- panel-body -->
@@ -102,7 +111,6 @@
 				</div><!-- col-md-6 -->
 				@endif
 			</div><!-- row -->
-			
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<div style="display: none;" class="panel-btns">
@@ -111,17 +119,22 @@
 					<h4 class="panel-title">Catatan</h4>
 				</div><!-- panel-heading -->
 				<div class="panel-body">
-					@if (empty($note))
+					
 					<form method="POST" action="{{ url('catatan') }}">
 					{{ csrf_field() }}
 						<div class="form-group">
-							<textarea id="Catatan" name="content" class="form-control" rows="10"></textarea>
+							<textarea id="Catatan" name="content" class="form-control" rows="10">
+							@if (!empty($note))
+								{{ $note->content }}
+							@else
+							@endif
+							</textarea>
 						</div>
 						<div class="form-group">
 							<input type="submit" class="btn btn-metro btn-success" value="Simpan">
 						</div>
 					</form>
-					@endif
+					
 				</div>
 			</div>
 			
@@ -152,17 +165,17 @@
 			</div>
 		  </div>
 		  <form action="{{ url('keluar') }}" method="POST">
-		  {{ csrf_field() }}
-		  @if (!empty($shiftLine))
-			<input type="hidden" name="id_shift" value="{{ $shiftLine->id_shift }}" >
-		  @endif
-		  @if (!empty($report))
-			<input type="hidden" name="id_laporan" value="{{ $report->id_laporan }}" >
-		  @endif
-		  <div class="modal-footer">
-		        <button type="submit" class="btn btn-primary">Absen Keluar</button>
-	      </div>
-	  </form>
+			  {{ csrf_field() }}
+			  @if (!empty($shiftLine))
+				<input type="hidden" name="id_shift" value="{{ $shiftLine->id_shift }}" >
+			  @endif
+			  @if (!empty($report))
+				<input type="hidden" name="id_laporan" value="{{ $report->id_laporan }}" >
+			  @endif
+			  <div class="modal-footer">
+			        <button type="submit" class="btn btn-primary">Absen Keluar</button>
+		      </div>
+	  	  </form>
 	  </div>
 	</div>
 </div>
@@ -243,13 +256,14 @@
 		  </div>
 		  <div class="modal-body">
 		  @if (!empty($report))
-		  	<form method="POST" action="<?php echo "catatan/".$report->id."/edit"; ?>">
+		  	<form method="POST" action="{{ url('laporan') }}/<?php echo $report->id_laporan; ?>/edit">
 		  	{{ csrf_field() }}
 		  	@if ($report->state != "Publish")
 			  <div class="form-group">
 					<textarea id="EditLaporan" name="content" class="form-control" rows="10">{{ $report->content }}</textarea>
 			  </div>
 			  <div class="form-group">
+			  		<input type="submit" name="draft" class="btn btn-metro btn-success" value="Save as Draft">
 					<input type="submit" name="publish" class="btn btn-metro btn-primary" value="Publish">				
 			  </div>
 			@else

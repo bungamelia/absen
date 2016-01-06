@@ -91,10 +91,10 @@ class absenController extends Controller
 			$id     = Auth::user()->id_karyawan;
 			$today  = date("Y-m-d");
 			$report = Laporan::where("id_karyawan","=",$id)
-								  ->where("tanggal","=",$today)
-								  ->where("state","=","Draft")
-							      ->orderBy("id_laporan", "DESC")
-							      ->first();
+							  ->where("tanggal","=",$today)
+							  ->where("state","=","Draft")
+						      ->orderBy("id_laporan", "DESC")
+						      ->first();
 
 				if (!empty($report)) {
 					$id_laporan     = \Input::get('id_laporan');
